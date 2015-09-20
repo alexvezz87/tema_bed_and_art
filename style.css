@@ -14,4 +14,59 @@ This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
 */
 
+html, body {padding:0; margin:0}
 
+.nopadding {padding-left:0px !important; padding-right: 0px !important}
+
+header {height: 100px;}
+
+.logo {float:left;}
+#hamburger-menu {float:right; width:67px; height:67px; cursor: pointer; display:block; background:red}
+
+#hamburger-menu.opened {background:yellow}
+
+/* MENU */
+#menu-comparsa {
+    width:100%; 
+    position: absolute; 
+    z-index:9999;
+    background:#000;
+    display:none;
+}
+
+#menu-comparsa ul {
+    list-style: none;
+    background:#000;
+    color:#fff;
+   
+}
+
+#menu-comparsa ul li {
+   display: table;
+   background:#000;
+}
+
+#menu-comparsa ul li a {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    background:rgba(0,0,0,0.7);
+}
+
+
+#menu-comparsa ul a, #menu-comparsa ul a:visited, #menu-comparsa ul a:hover {
+    color:#fff; text-decoration: none;
+}
+#menu-comparsa ul li a:hover {
+   background:rgba(0,0,0,0.4);
+}
+
+.fill {
+    width:100%;
+    
+    min-height:100%;   
+    padding:0px;
+    margin:0px;    
+}
+
+/* end MENU */

@@ -21,8 +21,9 @@
 
 get_header(); ?>
 
-<div id="main-container" class="row">   
-    <div class="col-xs-12">
+<div id="main-container" class="container-fluid">   
+    <div class="row">
+        <div class="col-xs-12">
        
     
     <?php if ( have_posts() ) : ?>
@@ -56,7 +57,8 @@ get_header(); ?>
 
     endif;
     ?>
-</div>
+        </div>
+    </div>
 </div>
 
     
