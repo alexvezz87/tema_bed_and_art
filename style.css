@@ -14,16 +14,33 @@ This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
 */
 
-html, body {padding:0; margin:0}
+html, body {
+    padding:0; 
+    margin:0; 
+    font-family: 'Lato', sans-serif;
+    background:#FEFEFE;
+}
 
 .nopadding {padding-left:0px !important; padding-right: 0px !important}
 
 header {height: 100px;}
 
-.logo {float:left;}
-#hamburger-menu {float:right; width:67px; height:67px; cursor: pointer; display:block; background:red}
+.show-menu {    
+    overflow: hidden;
+}
 
-#hamburger-menu.opened {background:yellow}
+.logo-container {padding-top:12px}
+.logo {float:left;}
+#hamburger-menu {
+    float:right; 
+    width:67px; 
+    height:67px; 
+    cursor: pointer; 
+    display:block; 
+    background: url('images/menu-open.png') no-repeat center center ;
+}
+
+#hamburger-menu.opened {background: url('images/menu-close.png') no-repeat center center ;}
 
 /* MENU */
 #menu-comparsa {
@@ -50,7 +67,10 @@ header {height: 100px;}
     display: table-cell;
     vertical-align: middle;
     text-align: center;
-    background:rgba(0,0,0,0.7);
+    background:rgba(0,0,0,0.4);
+    transition-property: background;
+    transition-duration: 1s;
+    font-size:30px;
 }
 
 
@@ -58,15 +78,125 @@ header {height: 100px;}
     color:#fff; text-decoration: none;
 }
 #menu-comparsa ul li a:hover {
-   background:rgba(0,0,0,0.4);
+   background:rgba(0,0,0,1);
 }
 
 .fill {
-    width:100%;
-    
+    width:100%;    
     min-height:100%;   
     padding:0px;
     margin:0px;    
 }
 
 /* end MENU */
+
+
+/*SWIPER */
+.swiper-container {
+    width: 100%;
+    
+}      
+
+.swiper-slide-image {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    width:100%;
+    height: 100%;
+    display: block;
+}
+
+.swiper-button-prev{
+    background:url('images/arrow_sx.png') center center no-repeat !important;
+    background-size: 100% auto;
+    width:33px;
+    height: 53px;    
+}
+
+.swiper-button-next{
+    background:url('images/arrow_dx.png') center center no-repeat !important;
+    background-size: 100% auto;
+    width:33px;
+    height: 53px;    
+}
+
+/* end SWIPER */
+
+/* FOOTER */
+footer {
+    background:#000;
+    color:#fff;
+    min-height: 230px;
+    padding-bottom: 30px;    
+}
+
+footer h3 {margin:0; padding:0; font-size: 35px}
+
+footer .social-link {
+    width: 100%;
+    list-style: none;
+    margin:auto;
+    height: 35px;
+    max-width: 325px;
+    padding: 0px;
+}
+
+footer .social-link li {
+    float:left;
+    width:20%;
+    text-align: center;
+    max-width:65px;
+}
+
+footer .copyright {
+    font-size:14px;
+}
+
+footer .copyright a, footer .copyright a:hover {
+    color:#a81a1b;
+    text-decoration: none;
+}
+
+footer .row {
+    max-width:1550px;
+    margin:auto;
+}
+
+footer .row > div {
+    text-align: center;
+    padding-top:30px;    
+}
+
+/* end FOOTER */
+
+
+/** TABLET **/
+@media (min-width: 768px) {
+    
+}
+/** end TABLET **/
+
+/** DEKSTOP **/
+@media (min-width: 992px) {
+    footer {
+        padding-bottom:0px;
+    }
+    
+    footer .row, footer .row > div {
+        height: 230px;
+    }
+    
+    footer .row .copyright {
+       text-align: left;
+    }
+    
+    footer .row > div {    
+        padding-top:90px;
+        border-right: 5px solid #2e2e2e;
+    }
+    
+    footer .row > div:last-child {
+        border-right: none;
+    }
+
+}
+/** end DESKTOP **/

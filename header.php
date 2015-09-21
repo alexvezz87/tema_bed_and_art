@@ -14,8 +14,9 @@
  */
 
 //imposto alcuni path
-$path_imges = esc_url( get_template_directory_uri() ).'/images/';
+$path_img = esc_url( get_template_directory_uri() ).'/images/';
 $path_js = esc_url( get_template_directory_uri() ).'/js/';
+$path_css = esc_url( get_template_directory_uri() ).'/css/';
 
 //ottengo il menu
 $menu = wp_get_nav_menu_items( 'primary');
@@ -32,12 +33,24 @@ $menu = wp_get_nav_menu_items( 'primary');
 	<!--[if lt IE 9]>
 	<script src="<?php echo $path_js ?>html5.js"></script>
 	<![endif]-->
-        <script src="<?php echo $path_js ?>bootstrap.min.js"></script>
+        
+       <script src="<?php echo $path_js ?>jquery-2.1.4.min.js"></script>
+        <!-- swiper -->
+        <link rel="stylesheet" href="<?php echo $path_css ?>swiper.min.css">   
+            
+        <script src="<?php echo $path_js ?>swiper.min.js"></script>
+        <script src="<?php echo $path_js ?>swiper.jquery.min.js"></script>
+        <script src="<?php echo $path_js ?>swiper.jquery.umd.min.js"></script>        
+        <!-- end swiper -->  
+        
         <script src="<?php echo $path_js ?>jquery-2.1.4.min.js"></script>
+        <script src="<?php echo $path_js ?>bootstrap.min.js"></script>    
         <script src="<?php echo $path_js ?>functions.js"></script>
+       
         
         <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/bootstrap.min.css" type="text/css" >
         <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/style.css" type="text/css" >
+        <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
        
         
 	<?php wp_head(); ?>
@@ -45,8 +58,10 @@ $menu = wp_get_nav_menu_items( 'primary');
 
 <header class="container-fluid">
     <div class="row">
-        <div class="col-xs-12">
-            <img class="logo" src="<?php echo $path_imges ?>logo.jpg" alt="logo"/>
+        <div class="col-xs-12 logo-container">
+            <a href="<?php echo get_home_url() ?>">
+                <img class="logo" src="<?php echo $path_img ?>bedandart-logo.png" alt="logo"/>
+            </a>
             <div id="hamburger-menu"></div>
         </div>        
     </div>    
@@ -68,3 +83,6 @@ $menu = wp_get_nav_menu_items( 'primary');
 </div>
 
 <!-- end menu a comparsa -->
+
+<!-- start main content -->
+<div id="main-container" class="container-fluid nopadding">   
