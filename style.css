@@ -25,9 +25,6 @@ html, body {
 
 header {height: 100px;}
 
-.show-menu {    
-    overflow: hidden;
-}
 
 .logo-container {padding-top:12px}
 .logo {float:left;}
@@ -124,6 +121,7 @@ header {height: 100px;}
     display:table-cell;
     vertical-align: middle;
     text-align: center;   
+    text-shadow: rgb(0, 0, 0) 2px 1px 3px;
 }
 
 .slide-description > * {
@@ -176,9 +174,6 @@ header {height: 100px;}
     font-weight: 300;
     margin-bottom: 75px;
 }
-
-
-
 .red-1{
     color:#a81a1b;
 }
@@ -186,7 +181,6 @@ header {height: 100px;}
 .red-2{
     color:#ba326c;
 }
-
 
 .background-logo {
     width:515px;
@@ -207,9 +201,10 @@ footer {
     color:#fff;
     min-height: 230px;
     padding-bottom: 30px;    
+    
 }
 
-footer h3 {margin:0; padding:0; font-size: 35px}
+footer h3 {margin:0; padding:0; font-size: 25px; font-weight: 300;}
 
 footer .social-link {
     width: 100%;
@@ -246,11 +241,145 @@ footer .row > div {
     padding-top:30px;    
 }
 
+.booking-link, .newsletter-link {cursor: pointer}
+
 /* end FOOTER */
 
 
+/* ABOUT */
+
+#inside .cover-image-persona{
+    display:none;
+    position:absolute;
+    width:100%;
+    height: 100%;
+    z-index: 100;
+    background:rgba(129,45,46,0.7);
+    color:#fff;
+    text-align: center;
+    top:0;
+}
+
+#inside .cover-image-persona p {
+    color:#fff;
+    font-size:20px;
+    line-height: 25px;
+    background:url('images/icon_cross.png') no-repeat top center;
+    padding-top:100px;
+    position:absolute;
+    margin-bottom:45px;
+    bottom:0;
+    width:100%;    
+}
+
+.black-container {
+    background: #000;      
+}
+
+.half-row{width:100%; float:left}
+
+.black-container .form-field, .black-container .wysija-input {
+    width:100%;
+    height: 45px;   
+    font-size:18px;
+    padding-left:25px;
+    margin-bottom:10px;
+    color:#fff;
+    background: #262626;
+    border:none;   
+    font-weight: 300;
+}
+
+.black-container .form-submit, .black-container .wysija-submit {
+    background:#000;
+    color:#fff;
+    font-size:25px;
+    width:100%;
+    max-width:290px;
+    height: 45px;
+    border:2px solid #fff;
+    float:right;
+    font-weight: 300;
+}
+div.wpcf7-response-output{
+    margin:0 auto !important;
+}
+
+.black-container textarea.form-field {
+    padding-top: 5px;
+}
+
+#inside .black-container h2 {
+    color: #fff;
+}
+
+#inside .form-container p {max-width:100%; }
+
+ul.persone {list-style: none;}
+
+/* end ABOUT */
+
+
+/* Booking Form */
+#booking-form, #newsletter-form {
+    display: none;
+    position: fixed;
+    width:100%;
+    height: 100%;
+    top:0;
+    z-index: 999999999;
+    background:rgba(0,0,0,0.9);
+}
+
+#booking-form > div, #newsletter-form > div {
+    float:none;
+    display:block;
+    margin:auto;
+    color:#fff;
+}
+
+#booking-form h2, #newsletter-form h2 {
+    text-align: left;
+    margin-bottom:10px;
+    font-size:25px;
+    font-weight: 300;
+    float:left;
+    width: 90%;
+}
+
+#booking-form span.close-form, #newsletter-form span.close-form {
+    float:right;
+    font-size:20px;
+    margin-top:20px;
+    display: block;
+    cursor: pointer;
+}
+
+#booking-form.black-container .form-submit, #newsletter-form.black-container .wysija-submit {
+    float:none;
+    display: block;
+    margin: 0 auto;
+    font-weight: 300;
+}
+
+.widget_wysija_cont p label{display: none !important}
+
+/* end Booking Form */
+
+@media (max-width : 991px){
+    .formError {       
+        top: 210px !important;
+        left: 15px !important;
+    }
+}
+
 /** TABLET **/
 @media (min-width: 768px) {
+    
+    .show-menu {    
+        overflow: hidden;
+    }
+    
     #inside h2{ 
         font-size:48px;
     }
@@ -259,6 +388,73 @@ footer .row > div {
         font-size:30px;
         line-height: 32px; 
     }
+    
+    footer h3 {font-size: 35px}
+     #inside .cover-image-persona p {        
+        font-size:36px;
+        line-height: 40px;
+    }
+    
+    .black-container .form-field {
+        padding-left:50px;
+    }
+    
+    /* Booking Form */
+
+    .black-container .form-field, .black-container .wysija-input {
+        width:100%;
+        height: 75px;   
+        font-size:18px;
+        padding-left:25px;
+        margin-bottom:10px;
+        color:#fff;
+        background: #262626;
+        border:none;   
+        font-weight: 300;
+    }
+    
+    
+    .black-container .form-submit, .black-container .wysija-submit {
+        background:#000;
+        color:#fff;
+        font-size:36px;
+        width:100%;
+        max-width:290px;
+        height: 75px;
+        border:2px solid #fff;
+        float:right;
+        font-weight: 300;
+    }
+    
+    .black-container textarea.form-field {
+        padding-top: 25px;
+    }
+
+    #booking-form h2, #newsletter-form h2 {
+        text-align: left;
+        margin-bottom:45px;
+        font-size:48px;
+        font-weight: 300;
+        float:left;
+    }
+
+    #booking-form span.close-form, #newsletter-form span.close-form {
+        float:right;
+        font-size:30px;
+        margin-top:20px;
+        display: block;
+        cursor: pointer;
+    }
+
+    #booking-form.black-container .form-submit, #newsletter-form.black-container .wysija-submit {
+        float:none;
+        display: block;
+        margin: 10px auto;
+        font-weight: 300;
+    }
+
+    /* end Booking Form */
+    
 }
 /** end TABLET **/
 
@@ -292,14 +488,37 @@ footer .row > div {
     #inside{
         padding-top:100px;
     }
+    
+    #inside.about {
+        padding-top: 70px;
+    }
+    
+    #inside .title-page {
+        margin-top:90px;
+    }
 
+   .half-row{width:50%; padding-top:90px}
+   .half-row.black-container {padding-bottom:45px}
+   .half-row.black-container .contact {margin-top:-45px}
+   #inside .half-row p {margin-bottom:0}
+   
+   .black-container .form-submit, .black-container .wysija-submit {
+       margin-top:40px;
+   }
 }
 /** end DESKTOP **/
 
 /** WIDE SCREEN **/
-@media (min-width: 1600px) {
+@media (min-width: 1500px) {
     .col-dx {
         padding-left:100px;
+    }
+    
+    .half-row > div {
+        max-width: 740px;
+        margin: auto;
+        display: block;
+        float: none;
     }
 }
 

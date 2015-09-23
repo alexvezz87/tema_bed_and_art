@@ -6,7 +6,7 @@ $( document ).ready(function() {
     $(window).resize(resizeItemMenu);   
     
     $('#hamburger-menu').click(function(){
-        $('#menu-comparsa').slideToggle();
+        $('#menu-comparsa').stop().slideToggle();
         $(this).toggleClass('opened');
         $('body').toggleClass('show-menu');
     });
@@ -44,12 +44,40 @@ $( document ).ready(function() {
    //end SWIPER
    
    //scroll to
-   $('.discover-more').click(function() {
-    var aTag = $("#inside");
-    $('html,body').animate({scrollTop: aTag.offset().top},'slow');
-});
-
-   
+    $('.discover-more').click(function() {
+        var aTag = $("#inside");
+        $('html,body').animate({scrollTop: aTag.offset().top},'slow');
+    });
+    
+    //hover in about
+    $('li.persona').hover(
+        function(event){           
+            $(this).find('.cover-image-persona').stop().slideDown(); 
+        },
+        function(event){            
+            $(this).find('.cover-image-persona').stop().slideUp(); 
+    });
+    
+    
+    //booking
+    $('.booking-link').click(function(){
+        $('#booking-form').show();
+    });
+    $('#booking-form .close-form').click(function(){
+        $('#booking-form').hide();
+    });
+    
+    //newsletter
+    $('.newsletter-link').click(function(){
+        $('#newsletter-form').show();
+    });
+    $('#newsletter-form .close-form').click(function(){
+        $('#newsletter-form').hide();
+    });
+    
+    $('input[name="wysija[user][email]"]').attr('placeholder', 'Email *');
+    
+    
 });
 
 

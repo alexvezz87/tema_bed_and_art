@@ -28,8 +28,8 @@ get_header(); ?>
 			'field' => 'slug',
 			'terms' => 'project'
 		)
-                )
-            );
+            )
+        );
         $projects = get_posts($args);
         
         
@@ -64,7 +64,16 @@ get_header(); ?>
  <?php
     
         //Ottengo tutti i custom post type di project
-        $args = array('post_type' => 'baa_projects');
+        $args = array(
+            'post_type' => 'baa_projects',
+            'tax_query' => array(
+		array(
+			'taxonomy' => 'project_type',
+			'field' => 'slug',
+			'terms' => 'campi-progetto'
+		)
+            )        
+        );
         $posts = get_posts($args);  
         
         $post_project = array();
@@ -88,17 +97,28 @@ get_header(); ?>
             }            
             
         }
+        
+        //prendo il titolo
+        if ( have_posts() ) : 
+             while ( have_posts() ) : the_post();
+                $post_project['title-page'] = get_the_title();
+            endwhile;        
+        endif;
+        
     ?>
         <div id="inside">        
             <div class="background-logo"></div>
             <div class="row">
-                <div class="col-xs-12 col-md-6">
+                
+                <div class="col-xs-12 col-md-6 col-md-push-6 col-dx">
+                    <h2 class="red-1 title-page"><?php echo $post_project['title-page'] ?></h2>
+                </div>     
+                
+                <div class="col-xs-12 col-md-6 col-md-pull-6">
                     <h2 class="red-1">Project</h2>
                     <p><?php echo $post_project['project'] ?></p>                    
                 </div>
-                <div class="col-xs-12 col-md-6 col-dx">
-                    <h2 class="red-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
-                </div>                
+                           
             </div>
             
             <div class="col-xs-12 col-md-6 nopadding">

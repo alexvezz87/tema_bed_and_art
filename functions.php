@@ -127,37 +127,37 @@ function calculateHeightSingleMenu($numVoci){
 }
 
 
-function getImageBackgroundItemMenu($title){
+function getImageBackgroundItemMenu($title){    
     //La funzione ritorna l'immagine di sfondo passato il titolo
     //devo trasformare il titolo in uno slug di categoria: titolo-menu-image
-    $slug_categoria = strtolower($title).'-menu-image';
-    //trovo l'id della categoria    
-    $categoria = get_category_by_slug( $slug_categoria );
-       
-    //print_r($categoria);
-    $idCategoria = $categoria->term_id;
-    if($idCategoria != false){        
-        //trovo il post con l'immagine dall'id della categoria      
-        $idPost = getIdPostFromIdCategory($idCategoria);
-        return wp_get_attachment_url( get_post_thumbnail_id($idPost));        
+    $title = strtolower($title);
+    $terms = $title.'-menu-image';
+    $taxonomy = $title.'_type';
+    $post_type = 'baa_'.$title.'s';
+    
+    //ottengo il post giusto
+    $args = array(
+            'post_type' => $post_type,
+            'tax_query' => array(
+		array(
+			'taxonomy' => $taxonomy,
+			'field' => 'slug',
+			'terms' => $terms
+		)
+            )        
+        );
+    
+    $posts = get_posts($args); 
+    $idPost = null;
+    foreach($posts as $post){
+        $idPost = $post->ID;
     }
-    else{
-        //cerco per custom post type
-        $tax_terms = get_terms(strtolower($title).'_type');
-        
-        $idCategoria = null;
-        foreach($tax_terms as $item){
-            if($item->slug == $slug_categoria){
-                $idCategoria = $item->term_id;
-            }
-        }    
-        
-        if($idCategoria != null){            
-            $idPost = getIdPostFromIdCategory($idCategoria);  
-            return wp_get_attachment_url( get_post_thumbnail_id($idPost));
-        }
-         
+    
+    if($idPost != null){
+        return wp_get_attachment_url( get_post_thumbnail_id($idPost));    
     }
+    
+    
    
     return null;
 }
@@ -331,6 +331,108 @@ if ( ! function_exists('baa_projects') ) {
     add_action( 'init', 'baa_projects', 0 );   
 }
 
+//Aggiungo Custom post type per l'about
+if ( ! function_exists('baa_abouts') ) {
+
+    // Register Custom Post Type
+    function baa_abouts() {
+
+            $labels = array(
+                    'name'                => __( 'About', 'Post Type General Name', 'baa_abouts' ),
+                    'singular_name'       => __( 'About', 'Post Type Singular Name', 'baa_abouts' ),
+                    'menu_name'           => __( 'About', 'baa_abouts' ),
+                    'parent_item_colon'   => __( 'Parent Item:', 'baa_abouts' ),
+                    'all_items'           => __( 'Tutti gli elementi', 'baa_abouts' ),
+                    'view_item'           => __( 'View Item', 'baa_abouts' ),
+                    'add_new_item'        => __( 'Aggiungi nuovo', 'baa_abouts' ),
+                    'add_new'             => __( 'Aggiungi nuovo', 'baa_abouts' ),
+                    'edit_item'           => __( 'Edit Item', 'baa_abouts' ),
+                    'update_item'         => __( 'Aggiorna', 'baa_abouts' ),
+                    'search_items'        => __( 'Search Item', 'baa_abouts' ),
+                    'not_found'           => __( 'Not found', 'baa_abouts' ),
+                    'not_found_in_trash'  => __( 'Not found in Trash', 'baa_abouts' ),
+            );
+            $rewrite = array(
+                    'slug'                => 'baa_abouts',
+                    'with_front'          => true,
+                    'pages'               => true,
+                    'feeds'               => true,
+            );
+            $args = array(
+                    'label'               => __( 'baa_abouts', 'baa_abouts' ),
+                    'description'         => __( 'About in Bed and Art', 'baa_abouts' ),
+                    
+                    'labels'              => $labels,
+                    'supports'            => array( 'title', 'editor', 'escerpt', 'thumbnail', 'custom-fields' ),
+                    'hierarchical'        => false,
+                    'public'              => false,
+                    'show_ui'             => true,
+                    'show_in_menu'        => true,
+                    'show_in_nav_menus'   => false,
+                    'show_in_admin_bar'   => true,
+                    'menu_position'       => 6,
+                    'can_export'          => true,
+                    'has_archive'         => true,
+                    'exclude_from_search' => true,
+                    'publicly_queryable'  => true,
+                    'rewrite'             => $rewrite,
+                    'capability_type'     => 'post',
+            );
+
+
+            register_post_type( 'baa_abouts', $args );
+            register_taxonomy('about_type', 'baa_abouts', array('hierarchical' => true, 'label' => 'Categorie About', 'query_var' => true, 'rewrite' => true));
+
+    }
+
+    // Hook into the 'init' action
+    add_action( 'init', 'baa_abouts', 0 );   
+    
+    
+    /**
+ * Display a custom taxonomy dropdown in admin
+ * @author Mike Hemberger
+ * @link http://thestizmedia.com/custom-post-type-filter-admin-custom-taxonomy/
+ */
+    add_action('restrict_manage_posts', 'tsm_filter_post_type_by_taxonomy_about');
+    function tsm_filter_post_type_by_taxonomy_about() {
+	global $typenow;
+	$post_type = 'baa_abouts'; // change to your post type
+	$taxonomy  = 'about_type'; // change to your taxonomy
+	if ($typenow == $post_type) {
+		$selected      = isset($_GET[$taxonomy]) ? $_GET[$taxonomy] : '';
+		$info_taxonomy = get_taxonomy($taxonomy);
+		wp_dropdown_categories(array(
+			'show_option_all' => __("Show All {$info_taxonomy->label}"),
+			'taxonomy'        => $taxonomy,
+			'name'            => $taxonomy,
+			'orderby'         => 'name',
+			'selected'        => $selected,
+			'show_count'      => true,
+			'hide_empty'      => true,
+		));
+	};
+}
+    /**
+     * Filter posts by taxonomy in admin
+     * @author  Mike Hemberger
+     * @link http://thestizmedia.com/custom-post-type-filter-admin-custom-taxonomy/
+     */
+    add_filter('parse_query', 'tsm_convert_id_to_term_in_query_about');
+    function tsm_convert_id_to_term_in_query_about($query) {
+            global $pagenow;
+            $post_type = 'baa_abouts'; // change to your post type
+            $taxonomy  = 'about_type'; // change to your taxonomy
+            $q_vars    = &$query->query_vars;
+            if ( $pagenow == 'edit.php' && isset($q_vars['post_type']) && $q_vars['post_type'] == $post_type && isset($q_vars[$taxonomy]) && is_numeric($q_vars[$taxonomy]) && $q_vars[$taxonomy] != 0 ) {
+                    $term = get_term_by('id', $q_vars[$taxonomy], $taxonomy);
+                    $q_vars[$taxonomy] = $term->slug;
+            }
+    } 
+    
+    
+}
+
 
 
 function printElement($post){
@@ -338,7 +440,7 @@ function printElement($post){
     if( wp_get_attachment_url( get_post_thumbnail_id($post->ID))!= false){
         //è un'immagine
         echo '<div class="swiper-slide">';
-        echo '<div class="swiper-slide-image" style="background:url(\''.wp_get_attachment_url( get_post_thumbnail_id($post->ID)).'\')" />';
+        echo '<div class="swiper-slide-image" style="background:url(\''.wp_get_attachment_url( get_post_thumbnail_id($post->ID)).'\') center center" />';
         echo '<div class="slide-description hidden-xs hidden-sm"><h1>'.$post->post_title.'</h1><p>'.$post->post_content.'</p></div>';
         echo '</div>';
         echo '</div>';
