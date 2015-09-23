@@ -102,7 +102,7 @@ header {height: 100px;}
     background-repeat: no-repeat !important;
     width:100%;
     height: 100%;
-    display: block;
+    display: table;
 }
 
 .swiper-button-prev{
@@ -119,7 +119,87 @@ header {height: 100px;}
     height: 53px;    
 }
 
+.slide-description {
+    color:#fff;
+    display:table-cell;
+    vertical-align: middle;
+    text-align: center;   
+}
+
+.slide-description > * {
+    max-width: 700px;
+    margin:auto;
+}
+
+.slide-description h1 {
+    font-size:48px;
+    margin-bottom:25px;
+}
+
+.slide-description p {
+    font-size:18px;
+    line-height: 24px;    
+}
+
+.discover-more, .discover-more:hover, .discover-more:visited {
+    position:relative;
+    z-index:999;
+    width:55px;
+    height: 100px;
+    margin:auto;
+    display:block;
+    background:url('images/arrow_down.png') no-repeat bottom center;
+    font-size:14px;
+    margin-top:-130px;
+    color:#fff;
+    text-decoration: none;    
+}
 /* end SWIPER */
+
+
+#inside{
+    margin-top:30px;
+    background:#f8f8f8;
+}
+
+#inside h2{    
+    font-size:30px;
+    font-weight: 300;
+    margin-bottom:25px;
+}
+
+#inside p {
+    max-width: 670px;
+    color:#343434;
+    font-size:20px;
+    line-height: 22px; 
+    font-weight: 300;
+    margin-bottom: 75px;
+}
+
+
+
+.red-1{
+    color:#a81a1b;
+}
+
+.red-2{
+    color:#ba326c;
+}
+
+
+.background-logo {
+    width:515px;
+    height: 678px;
+    background:url('images/background-logo.png') no-repeat left top;
+    background-size: 1233px 678px;
+    position:absolute;
+    right: 0;
+}
+
+.last-image {
+    border-bottom: 3px solid #fff;
+}
 
 /* FOOTER */
 footer {
@@ -156,7 +236,7 @@ footer .copyright a, footer .copyright a:hover {
     text-decoration: none;
 }
 
-footer .row {
+footer .row, #main-container .row {
     max-width:1550px;
     margin:auto;
 }
@@ -171,7 +251,14 @@ footer .row > div {
 
 /** TABLET **/
 @media (min-width: 768px) {
+    #inside h2{ 
+        font-size:48px;
+    }
     
+    #inside p {
+        font-size:30px;
+        line-height: 32px; 
+    }
 }
 /** end TABLET **/
 
@@ -197,6 +284,23 @@ footer .row > div {
     footer .row > div:last-child {
         border-right: none;
     }
+    
+    .col-dx {
+        padding-left:50px;
+    }
+    
+    #inside{
+        padding-top:100px;
+    }
 
 }
 /** end DESKTOP **/
+
+/** WIDE SCREEN **/
+@media (min-width: 1600px) {
+    .col-dx {
+        padding-left:100px;
+    }
+}
+
+/** end WIDE SCREEN **/

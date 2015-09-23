@@ -25,8 +25,31 @@ $( document ).ready(function() {
       keyboardControl : true     
     })        
     
+    $('.video-player').click(function(ev){        
+        $('.discover-more').hide();
+        $(this).find('.cover-video').hide();        
+        $(this).find('.video-player').attr('src', $(this).find('.video-player').attr('src')+'?autoplay=1');
+        ev.preventDefault();
+    });
+    
+    $('.swiper-button-next, .swiper-button-prev').click(function(){
+        $('.discover-more').show();
+    });
+    
+    $('iframe').click(function(){
+        $('.discover-more').hide();
+    });
+   
    
    //end SWIPER
+   
+   //scroll to
+   $('.discover-more').click(function() {
+    var aTag = $("#inside");
+    $('html,body').animate({scrollTop: aTag.offset().top},'slow');
+});
+
+   
 });
 
 

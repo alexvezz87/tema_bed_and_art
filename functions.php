@@ -205,7 +205,7 @@ if ( ! function_exists('baa_gallerie') ) {
                     'description'         => __( 'Gallerie di Bad and Art', 'baa_gallerie' ),
                     
                     'labels'              => $labels,
-                    'supports'            => array( 'title', 'thumbnail', 'custom-fields' ),
+                    'supports'            => array( 'title', 'thumbnail', 'editor', 'custom-fields' ),
                     'hierarchical'        => false,
                     'public'              => false,
                     'show_ui'             => true,
@@ -332,5 +332,25 @@ if ( ! function_exists('baa_projects') ) {
 }
 
 
+
+function printElement($post){
+   
+    if( wp_get_attachment_url( get_post_thumbnail_id($post->ID))!= false){
+        //è un'immagine
+        echo '<div class="swiper-slide">';
+        echo '<div class="swiper-slide-image" style="background:url(\''.wp_get_attachment_url( get_post_thumbnail_id($post->ID)).'\')" />';
+        echo '<div class="slide-description hidden-xs hidden-sm"><h1>'.$post->post_title.'</h1><p>'.$post->post_content.'</p></div>';
+        echo '</div>';
+        echo '</div>';
+    }
+    else{
+        //è un video               
+        $embed_video = str_replace('watch?v=', 'embed/', get_post_meta($post->ID, 'video', true));  
+        echo '<div class="swiper-slide video-player">';
+        echo '<div class="cover-video" style="width:100%; height:100%; position:absolute; z-index:9999; cursor:pointer"></div>';
+        echo '<iframe width="100%" height="100%" src="'.$embed_video.'" frameborder="0" allowfullscreen></iframe>';
+        echo '</div>';
+    }
+}
 
 ?>

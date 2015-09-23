@@ -14,7 +14,7 @@ get_header(); ?>
     <div class="fill nopadding">       
         <div clasS="col-xs-12 nopadding">
     <?php
-        //Ottengo tutti i custom post type di Galleria
+        //Ottengo tutti i custom post type di Galleria Home
         $args = array(
             'post_type' => 'baa_gallerie',
             'tax_query' => array(
@@ -37,25 +37,8 @@ get_header(); ?>
         <?php
         
         foreach($posts as $post){
-            
-            if( wp_get_attachment_url( get_post_thumbnail_id($post->ID))!= false){
-                //è un'immagine
-                echo '<div class="swiper-slide">';
-                echo '<div class="swiper-slide-image" style="background:url(\''.wp_get_attachment_url( get_post_thumbnail_id($post->ID)).'\')" /></div>';
-                echo '</div>';
-            }
-            else{
-                //è un video               
-                $embed_video = str_replace('watch?v=', 'embed/', get_post_meta($post->ID, 'video', true));  
-                echo '<div class="swiper-slide">';
-                echo '<iframe width="100%" height="100%" src="'.$embed_video.'" frameborder="0" allowfullscreen></iframe>';
-                echo '</div>';
-            }
-            
-            
-        }
-        
-       
+            printElement($post);
+        } 
     ?>
         
                 </div>
