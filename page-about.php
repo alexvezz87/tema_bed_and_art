@@ -160,8 +160,50 @@ get_header(); ?>
             </div>            
             
             <div class="col-xs-12 last-image nopadding clear">
-                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2799.664323627583!2d12.335698100000005!3d45.43626759999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477eb1da159153df%3A0x4a162b15fe2576a6!2sS.+Marco%2C+4700%2C+30100+Venezia!5e0!3m2!1sit!2sit!4v1443020408032" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>           
-            </div>
+                <div id="map"></div>
+            </div>           
+            
+            <script>
+                // This example creates circles on the map, representing populations in North
+                // America.
+
+                // First, create an object containing LatLng and population for each city.
+                var citymap = {
+                  venice: {
+                    center: {lat: 45.4362676, lng: 12.3356981},
+                    population: 2714856
+                  }
+                };
+
+                function initMap() {
+                  // Create the map.
+                  var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 15,
+                    center: {lat: 45.4362676, lng: 12.3356981},
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    streetViewControl: true,
+                    disableDefaultUI: false
+                  });
+
+                  // Construct the circle for each value in citymap.
+                  // Note: We scale the area of the circle based on the population.
+                  for (var city in citymap) {
+                    // Add the circle for this city to the map.
+                    var cityCircle = new google.maps.Circle({
+                      strokeColor: '#FF0000',
+                      strokeOpacity: 0.7,
+                      strokeWeight: 1,
+                      fillColor: '#FF0000',
+                      fillOpacity: 0.35,
+                      map: map,
+                      center: citymap[city].center,
+                      radius: Math.sqrt(citymap[city].population) * 0.2
+                    });
+                  }
+                }
+
+            </script>
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQonCTx6sZVRJAHTXws8Sf-Z9VeQm-NNA&callback=initMap"></script>
         </div>
     
     </div>
