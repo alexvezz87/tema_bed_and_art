@@ -23,15 +23,17 @@ html, body {
 
 .nopadding {padding-left:0px !important; padding-right: 0px !important}
 
-header {height: 100px;}
+header {height: 50px;}
+header .logo-container {}
+header .logo {
+    float:left;
+    height: 50px;
+}
 
-
-.logo-container {padding-top:12px}
-.logo {float:left;}
-#hamburger-menu {
+header #hamburger-menu {
     float:right; 
-    width:67px; 
-    height:67px; 
+    width:50px; 
+    height:50px; 
     cursor: pointer; 
     display:block; 
     background: url('images/menu-open.png') no-repeat center center ;
@@ -83,6 +85,14 @@ header {height: 100px;}
     min-height:100%;   
     padding:0px;
     margin:0px;    
+}
+
+.show-menu {    
+    overflow: hidden;   
+}
+
+.open-menu{
+    display:none;
 }
 
 /* end MENU */
@@ -366,18 +376,18 @@ ul.persone {list-style: none;}
 
 /* end Booking Form */
 
-@media (max-width : 991px){
-    .formError {       
-        top: 210px !important;
-        left: 15px !important;
-    }
-}
 
 /** TABLET **/
 @media (min-width: 768px) {
-    
-    .show-menu {    
-        overflow: hidden;
+       
+    header {height: 100px;}
+    header .logo-container {padding-top:12px}
+    header .logo {
+        height: auto;
+    }
+    header #hamburger-menu {      
+        width:67px; 
+        height:67px; 
     }
     
     #inside h2{ 
@@ -523,3 +533,13 @@ ul.persone {list-style: none;}
 }
 
 /** end WIDE SCREEN **/
+
+/* Aggiustamenti intermedi */
+
+
+@media (max-width : 991px){
+    .formError {       
+        top: 210px !important;
+        left: 15px !important;
+    }
+}
