@@ -84,7 +84,8 @@ $( document ).ready(function() {
 
 function resizeSwiperContainer(){   
     var h = $(window).height() - $('header').height();
-    $('.swiper-container').css('height', h+'px');    
+    $('.swiper-container').css('height', h+'px');
+    $('.swiper-slide-image').css('height', h+'px');
 }
 
 function resizeItemMenu(){
