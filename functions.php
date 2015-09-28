@@ -131,9 +131,14 @@ function getImageBackgroundItemMenu($title){
     //La funzione ritorna l'immagine di sfondo passato il titolo
     //devo trasformare il titolo in uno slug di categoria: titolo-menu-image
     $title = strtolower($title);
+    
+    if($title == 'books'){
+        $title = 'book';
+    }
+   
     $terms = $title.'-menu-image';
     $taxonomy = $title.'_type';
-    $post_type = 'baa_'.$title.'s';
+    $post_type = 'baa_'.$title.'s';    
     
     //ottengo il post giusto
     $args = array(
@@ -148,6 +153,8 @@ function getImageBackgroundItemMenu($title){
         );
     
     $posts = get_posts($args); 
+    
+    
     $idPost = null;
     foreach($posts as $post){
         $idPost = $post->ID;
@@ -433,7 +440,105 @@ if ( ! function_exists('baa_abouts') ) {
     
 }
 
+//Aggiungo Custom post type per Book
+if ( ! function_exists('baa_books') ) {
 
+    // Register Custom Post Type
+    function baa_books() {
+
+            $labels = array(
+                    'name'                => __( 'Books', 'Post Type General Name', 'baa_books' ),
+                    'singular_name'       => __( 'Book', 'Post Type Singular Name', 'baa_books' ),
+                    'menu_name'           => __( 'Books', 'baa_books' ),
+                    'parent_item_colon'   => __( 'Parent Item:', 'baa_books' ),
+                    'all_items'           => __( 'Tutti gli elementi', 'baa_books' ),
+                    'view_item'           => __( 'View Item', 'baa_books' ),
+                    'add_new_item'        => __( 'Aggiungi nuovo', 'baa_books' ),
+                    'add_new'             => __( 'Aggiungi nuovo', 'baa_books' ),
+                    'edit_item'           => __( 'Edit Item', 'baa_books' ),
+                    'update_item'         => __( 'Aggiorna', 'baa_books' ),
+                    'search_items'        => __( 'Search Item', 'baa_books' ),
+                    'not_found'           => __( 'Not found', 'baa_books' ),
+                    'not_found_in_trash'  => __( 'Not found in Trash', 'baa_books' ),
+            );
+            $rewrite = array(
+                    'slug'                => 'baa_books',
+                    'with_front'          => true,
+                    'pages'               => true,
+                    'feeds'               => true,
+            );
+            $args = array(
+                    'label'               => __( 'baa_books', 'baa_books' ),
+                    'description'         => __( 'Books in Bed and Art', 'baa_books' ),
+                    
+                    'labels'              => $labels,
+                    'supports'            => array( 'title', 'editor', 'escerpt', 'thumbnail', 'custom-fields' ),
+                    'hierarchical'        => false,
+                    'public'              => false,
+                    'show_ui'             => true,
+                    'show_in_menu'        => true,
+                    'show_in_nav_menus'   => false,
+                    'show_in_admin_bar'   => true,
+                    'menu_position'       => 6,
+                    'can_export'          => true,
+                    'has_archive'         => true,
+                    'exclude_from_search' => true,
+                    'publicly_queryable'  => true,
+                    'rewrite'             => $rewrite,
+                    'capability_type'     => 'post',
+            );
+
+
+            register_post_type( 'baa_books', $args );
+            register_taxonomy('book_type', 'baa_books', array('hierarchical' => true, 'label' => 'Categorie Books', 'query_var' => true, 'rewrite' => true));
+
+    }
+
+    // Hook into the 'init' action
+    add_action( 'init', 'baa_books', 0 );   
+    
+    
+    /**
+ * Display a custom taxonomy dropdown in admin
+ * @author Mike Hemberger
+ * @link http://thestizmedia.com/custom-post-type-filter-admin-custom-taxonomy/
+ */
+    add_action('restrict_manage_posts', 'tsm_filter_post_type_by_taxonomy_books');
+    function tsm_filter_post_type_by_taxonomy_books() {
+	global $typenow;
+	$post_type = 'baa_books'; // change to your post type
+	$taxonomy  = 'book_type'; // change to your taxonomy
+	if ($typenow == $post_type) {
+		$selected      = isset($_GET[$taxonomy]) ? $_GET[$taxonomy] : '';
+		$info_taxonomy = get_taxonomy($taxonomy);
+		wp_dropdown_categories(array(
+			'show_option_all' => __("Show All {$info_taxonomy->label}"),
+			'taxonomy'        => $taxonomy,
+			'name'            => $taxonomy,
+			'orderby'         => 'name',
+			'selected'        => $selected,
+			'show_count'      => true,
+			'hide_empty'      => true,
+		));
+	};
+}
+    /**
+     * Filter posts by taxonomy in admin
+     * @author  Mike Hemberger
+     * @link http://thestizmedia.com/custom-post-type-filter-admin-custom-taxonomy/
+     */
+    add_filter('parse_query', 'tsm_convert_id_to_term_in_query_books');
+    function tsm_convert_id_to_term_in_query_books($query) {
+            global $pagenow;
+            $post_type = 'baa_books'; // change to your post type
+            $taxonomy  = 'book_type'; // change to your taxonomy
+            $q_vars    = &$query->query_vars;
+            if ( $pagenow == 'edit.php' && isset($q_vars['post_type']) && $q_vars['post_type'] == $post_type && isset($q_vars[$taxonomy]) && is_numeric($q_vars[$taxonomy]) && $q_vars[$taxonomy] != 0 ) {
+                    $term = get_term_by('id', $q_vars[$taxonomy], $taxonomy);
+                    $q_vars[$taxonomy] = $term->slug;
+            }
+    } 
+}
 
 function printElement($post){
    

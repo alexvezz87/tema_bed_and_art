@@ -75,7 +75,8 @@ $menu = wp_get_nav_menu_items( 'primary');
     <?php if(count($menu)>0){ ?>    
         <?php foreach($menu as $item){ ?>
             <li class="col-xs-12 col-sm-6 nopadding" style="background: url('<?php echo getImageBackgroundItemMenu($item->title) ?>') center center; background-size:cover; background-repeat:no-repeat">
-                <a href="<?php echo $item->url ?>"><?php echo $item->title ?> </a>             
+                <a href="<?php echo $item->url ?>"><?php echo $item->title ?> </a>            
+               
             </li>        
         <?php } ?> 
     <?php } ?>

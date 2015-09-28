@@ -346,6 +346,54 @@ ul.persone {list-style: none;}
 
 /* end ABOUT */
 
+/* BOOK */
+.book .books-container {
+    list-style: none;
+    padding:0;
+    margin-top:50px;
+}
+
+
+#inside.book .book-image img {
+    width:290px;
+    height: auto;
+    margin:auto;
+    display: block;
+}
+
+#inside.book .books-container .book-description h3 {
+    font-weight: 300;
+    color:#a81a1b;
+    font-size:30px;        
+}
+#inside.book .books-container .book-description p{
+    font-weight: 300;
+    font-size:18px;
+    line-height: 24px;
+    color: #343434;
+    margin-bottom:0;
+    max-width:100%;
+}
+
+.book .book-url {
+    display:block;
+    width: 125px;
+    height: 45px;
+    border:2px solid #000;
+    color:#a81a1b;
+    font-size:18px;
+    font-weight: 300;    
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 42px;
+    clear:both;
+    margin-top:20px;
+    margin-bottom:30px;
+    text-decoration: none;
+}
+
+/* end BOOK */
+
 
 /* Booking Form */
 #booking-form, #newsletter-form {
@@ -482,11 +530,22 @@ ul.persone {list-style: none;}
 
     /* end Booking Form */
     
+    #inside.book .books-container .book-description{
+        text-align:center;
+    }
+    .book .book-url{
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
 }
 /** end TABLET **/
 
 /** DEKSTOP **/
 @media (min-width: 992px) {
+    
+    .nopadding-desktop {padding:0}
+    
     footer {
         padding-bottom:0px;
     }
@@ -532,8 +591,31 @@ ul.persone {list-style: none;}
    .black-container .form-submit, .black-container .wysija-submit {
        margin-top:40px;
    }
+   
+    #inside.book .books-container .book-description {
+        text-align:left;
+    }
+    
+    .book .book-url{
+        margin-left: 0;
+        margin-right:0;
+    }
+    
+    .book .link-container{
+        width:290px;
+        margin:auto;
+    }
+   
 }
 /** end DESKTOP **/
+
+@media (min-width: 1200px) {
+
+    #inside.book .book-image {
+        min-height: 360px;
+    }
+    
+}
 
 /** WIDE SCREEN **/
 @media (min-width: 1500px) {
