@@ -57,7 +57,7 @@ $menu = wp_get_nav_menu_items( 'primary');
 	<?php wp_head(); ?>
 </head>
 
-<header class="container-fluid">
+<header class="container-fluid" id="header-top">
     <div class="row">
         <div class="col-xs-12 logo-container">
             <a href="<?php echo get_home_url() ?>">

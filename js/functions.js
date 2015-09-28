@@ -50,6 +50,11 @@ $( document ).ready(function() {
         $('html,body').animate({scrollTop: aTag.offset().top},'slow');
     });
     
+    $('.arrow-up').click(function() {
+        var aTag = $("#header-top");
+        $('html,body').animate({scrollTop: aTag.offset().top},'slow');
+    });
+    
     //hover in about
     $('li.persona').hover(
         function(event){           

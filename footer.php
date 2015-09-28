@@ -60,23 +60,20 @@ $path_img = esc_url( get_template_directory_uri() ).'/images/';
             <h3 class="newsletter-link">NEWSLETTER</h3>
         </div>
         <div class="field col-xs-12 col-md-3">
-            <ul class="social-link">
-                <li>
-                    <a href="#"><img src="<?php echo $path_img ?>social_youtube.png" alt="youtube" /></a>
-                </li>
-                <li>
-                    <a href="#"><img src="<?php echo $path_img ?>social_vimeo.png" alt="vimeo" /></a>
-                </li>
-                <li>
-                    <a href="#"><img src="<?php echo $path_img ?>social_twitter.png" alt="twitter" /></a>
-                </li>
-                <li>
-                    <a href="#"><img src="<?php echo $path_img ?>social_linkedin.png" alt="linkedin"/></a>
-                </li>
-                <li>
-                    <a href="#"><img src="<?php echo $path_img ?>social_instagram.png" alt="instagram"/></a>
-                </li>
-            </ul>
+            <div class="social-links-container">
+                <ul class="social-link">
+                    <li>
+                        <a target="_blank" href="https://www.youtube.com/channel/UCNOwuPM7QAtmUxSdNOro8dA"><img src="<?php echo $path_img ?>social_youtube.png" alt="youtube" /></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/bedandartvenice"><img src="<?php echo $path_img ?>social_vimeo.png" alt="vimeo" /></a>
+                    </li>               
+                    <li>
+                        <a target="_blank" href="#"><img src="<?php echo $path_img ?>social_linkedin.png" alt="linkedin"/></a>
+                    </li>               
+                </ul>
+                <a href="#header-top" class="arrow-up"></a>
+            </div>
         </div>
     </div>
     
