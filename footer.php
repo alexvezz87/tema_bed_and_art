@@ -66,7 +66,7 @@ $path_img = esc_url( get_template_directory_uri() ).'/images/';
                         <a target="_blank" href="https://www.youtube.com/channel/UCNOwuPM7QAtmUxSdNOro8dA"><img src="<?php echo $path_img ?>social_youtube.png" alt="youtube" /></a>
                     </li>
                     <li>
-                        <a target="_blank" href="https://www.facebook.com/bedandartvenice"><img src="<?php echo $path_img ?>social_vimeo.png" alt="facebook" /></a>
+                        <a target="_blank" href="https://www.facebook.com/bedandartvenice"><img src="<?php echo $path_img ?>social_facebook.png" alt="facebook" /></a>
                     </li>               
                     <li>
                         <a target="_blank" href="#"><img src="<?php echo $path_img ?>social_linkedin.png" alt="linkedin"/></a>

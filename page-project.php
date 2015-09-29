@@ -22,6 +22,7 @@ get_header(); ?>
         //Ottengo tutti i custom post type di Galleria Project
         $args = array(
             'post_type' => 'baa_gallerie',
+            'posts_per_page' => -1,
             'tax_query' => array(
 		array(
 			'taxonomy' => 'galleria_type',
@@ -48,8 +49,10 @@ get_header(); ?>
                   
                 </div>                
                 <!-- If we need navigation buttons -->
+            <?php if(count($posts) > 1){ ?>
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
+            <?php } ?>
                
             </div>         
         <a href="#project-inside" class="discover-more">Discover</a>
@@ -61,6 +64,7 @@ get_header(); ?>
         //Ottengo tutti i custom post type di project
         $args = array(
             'post_type' => 'baa_projects',
+            'posts_per_page' => -1,
             'tax_query' => array(
 		array(
 			'taxonomy' => 'project_type',

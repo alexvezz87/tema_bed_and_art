@@ -394,6 +394,26 @@ ul.persone {list-style: none;}
 
 /* end BOOK */
 
+/* SUPPORT */
+
+.support .partners ul {
+    list-style: none;
+}
+
+.support .partners ul li {
+   height: 100px;
+}
+
+.support .partners ul li div {
+    width:75%;
+    height: 75%;
+    background-size: contain !important;
+    margin:auto;
+    
+}
+
+/* end SUPPORT */
+
 
 /* Booking Form */
 #booking-form, #newsletter-form {
@@ -457,6 +477,10 @@ ul.persone {list-style: none;}
     
     #inside h2{ 
         font-size:48px;
+    }
+    
+    #inside.support .black-container .contact h2{
+        font-size: 30px;
     }
     
     #inside p {
@@ -538,6 +562,9 @@ ul.persone {list-style: none;}
         margin-right: auto;
     }
     
+    .support .partners ul li {
+        height:  258px;   
+    }
 }
 /** end TABLET **/
 
