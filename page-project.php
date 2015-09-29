@@ -49,7 +49,7 @@ get_header(); ?>
                   
                 </div>                
                 <!-- If we need navigation buttons -->
-            <?php if(count($posts) > 1){ ?>
+            <?php if(count($projects) > 1){ ?>
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
             <?php } ?>

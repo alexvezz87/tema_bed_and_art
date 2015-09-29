@@ -96,6 +96,8 @@ function bed_and_art_setup() {
 	add_theme_support( 'post-formats', array(
 		'aside', 'image', 'video', 'quote', 'link', 'gallery', 'status', 'audio', 'chat'
 	) );
+        
+        
 
 	//$color_scheme  = twentyfifteen_get_color_scheme();
 	//$default_color = trim( $color_scheme[0], '#' );
@@ -114,7 +116,6 @@ function bed_and_art_setup() {
 }
 endif; // twentyfifteen_setup
 add_action( 'after_setup_theme', 'bed_and_art_setup' );
-
 
 //Aggiungo Custom post type per le gallerie
 if ( ! function_exists('baa_gallerie') ) {
@@ -576,6 +577,161 @@ if ( ! function_exists('baa_supports') ) {
     } 
 }
 
+
+//Aggiungo Custom post type per Visit
+if ( ! function_exists('baa_visits') ) {
+
+    // Register Custom Post Type
+    function baa_visits() {
+
+            $labels = array(
+                    'name'                => __( 'Visit', 'Post Type General Name', 'baa_visits' ),
+                    'singular_name'       => __( 'Visit', 'Post Type Singular Name', 'baa_visits' ),
+                    'menu_name'           => __( 'Visit', 'baa_visits' ),
+                    'parent_item_colon'   => __( 'Parent Item:', 'baa_visits' ),
+                    'all_items'           => __( 'Tutti gli elementi', 'baa_visits' ),
+                    'view_item'           => __( 'View Item', 'baa_visits' ),
+                    'add_new_item'        => __( 'Aggiungi nuovo', 'baa_visits' ),
+                    'add_new'             => __( 'Aggiungi nuovo', 'baa_visits' ),
+                    'edit_item'           => __( 'Edit Item', 'baa_visits' ),
+                    'update_item'         => __( 'Aggiorna', 'baa_visits' ),
+                    'search_items'        => __( 'Search Item', 'baa_visits' ),
+                    'not_found'           => __( 'Not found', 'baa_visits' ),
+                    'not_found_in_trash'  => __( 'Not found in Trash', 'baa_visits' ),
+            );
+            $rewrite = array(
+                    'slug'                => 'baa_visits',
+                    'with_front'          => true,
+                    'pages'               => true,
+                    'feeds'               => true,
+            );
+            $args = array(
+                    'label'               => __( 'baa_visits', 'baa_visits' ),
+                    'description'         => __( 'Visit in Bed and Art', 'baa_visits' ),
+                    
+                    'labels'              => $labels,
+                    'supports'            => array( 'title', 'editor', 'escerpt', 'thumbnail', 'custom-fields', 'attachments' ),
+                    'hierarchical'        => false,
+                    'public'              => false,
+                    'show_ui'             => true,
+                    'show_in_menu'        => true,
+                    'show_in_nav_menus'   => false,
+                    'show_in_admin_bar'   => true,
+                    'menu_position'       => 6,
+                    'can_export'          => true,
+                    'has_archive'         => true,
+                    'exclude_from_search' => true,
+                    'publicly_queryable'  => true,
+                    'rewrite'             => $rewrite,
+                    'capability_type'     => 'post',
+            );
+
+
+            register_post_type( 'baa_visits', $args );
+            register_taxonomy('visit_type', 'baa_visits', array('hierarchical' => true, 'label' => 'Categorie Visit', 'query_var' => true, 'rewrite' => true));
+
+    }
+
+    // Hook into the 'init' action
+    add_action( 'init', 'baa_visits', 0 );   
+    
+    
+    /**
+ * Display a custom taxonomy dropdown in admin
+ * @author Mike Hemberger
+ * @link http://thestizmedia.com/custom-post-type-filter-admin-custom-taxonomy/
+ */
+    add_action('restrict_manage_posts', 'tsm_filter_post_type_by_taxonomy_visits');
+    function tsm_filter_post_type_by_taxonomy_visits() {
+	global $typenow;
+	$post_type = 'baa_visits'; // change to your post type
+	$taxonomy  = 'visit_type'; // change to your taxonomy
+	if ($typenow == $post_type) {
+		$selected      = isset($_GET[$taxonomy]) ? $_GET[$taxonomy] : '';
+		$info_taxonomy = get_taxonomy($taxonomy);
+		wp_dropdown_categories(array(
+			'show_option_all' => __("Show All {$info_taxonomy->label}"),
+			'taxonomy'        => $taxonomy,
+			'name'            => $taxonomy,
+			'orderby'         => 'name',
+			'selected'        => $selected,
+			'show_count'      => true,
+			'hide_empty'      => true,
+		));
+	};
+}
+    /**
+     * Filter posts by taxonomy in admin
+     * @author  Mike Hemberger
+     * @link http://thestizmedia.com/custom-post-type-filter-admin-custom-taxonomy/
+     */
+    add_filter('parse_query', 'tsm_convert_id_to_term_in_query_visits');
+    function tsm_convert_id_to_term_in_query_visits($query) {
+            global $pagenow;
+            $post_type = 'baa_visits'; // change to your post type
+            $taxonomy  = 'visit_type'; // change to your taxonomy
+            $q_vars    = &$query->query_vars;
+            if ( $pagenow == 'edit.php' && isset($q_vars['post_type']) && $q_vars['post_type'] == $post_type && isset($q_vars[$taxonomy]) && is_numeric($q_vars[$taxonomy]) && $q_vars[$taxonomy] != 0 ) {
+                    $term = get_term_by('id', $q_vars[$taxonomy], $taxonomy);
+                    $q_vars[$taxonomy] = $term->slug;
+            }
+    } 
+    
+    
+    function my_attachments( $attachments )
+    {
+      $fields         = array(
+        array(
+          'name'      => 'title',                         // unique field name
+          'type'      => 'text',                          // registered field type
+          'label'     => __( 'Title', 'attachments' ),    // label to display
+          'default'   => 'title',                         // default value upon selection
+        ),
+        array(
+          'name'      => 'caption',                       // unique field name
+          'type'      => 'textarea',                      // registered field type
+          'label'     => __( 'Caption', 'attachments' ),  // label to display
+          'default'   => 'caption',                       // default value upon selection
+        ),
+      );
+
+      $args = array(
+
+        // title of the meta box (string)
+        'label'         => 'My Attachments',
+        // all post types to utilize (string|array)
+        'post_type'     => array('baa_visits'),
+        // meta box position (string) (normal, side or advanced)
+        'position'      => 'normal',
+        // meta box priority (string) (high, default, low, core)
+        'priority'      => 'high',
+        // allowed file type(s) (array) (image|video|text|audio|application)
+        'filetype'      => null,  // no filetype limit
+        // include a note within the meta box (string)
+        'note'          => 'Attach files here!',
+        // by default new Attachments will be appended to the list
+        // but you can have then prepend if you set this to false
+        'append'        => true,
+        // text for 'Attach' button in meta box (string)
+        'button_text'   => __( 'Attach Files', 'attachments' ),
+        // text for modal 'Attach' button (string)
+        'modal_text'    => __( 'Attach', 'attachments' ),
+        // which tab should be the default in the modal (string) (browse|upload)
+        'router'        => 'browse',
+        // whether Attachments should set 'Uploaded to' (if not already set)
+        'post_parent'   => false,
+        // fields array
+        'fields'        => $fields,
+
+      );
+
+      $attachments->register( 'my_attachments', $args ); // unique instance name
+    }
+
+    add_action( 'attachments_register', 'my_attachments' );
+}
+
+
 function printElement($post){
    
     if( wp_get_attachment_url( get_post_thumbnail_id($post->ID))!= false){
@@ -594,6 +750,13 @@ function printElement($post){
         echo '<iframe width="100%" height="100%" src="'.$embed_video.'" frameborder="0" allowfullscreen></iframe>';
         echo '</div>';
     }
+}
+
+
+function printDirectElement($url){
+    echo '<div class="swiper-slide">';
+    echo '<div class="swiper-slide-image" style="background:url(\''.$url.'\') center center" /></div>';
+    echo '</div>';
 }
 
 //calcolo altezza box menu

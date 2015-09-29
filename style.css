@@ -164,6 +164,14 @@ header #hamburger-menu {
 }
 /* end SWIPER */
 
+/* SWIPER inside */
+
+#inside .swiper-container, #inside .swiper-slide-image{
+    max-height: 600px;
+}
+
+/* end SWIPER inside */
+
 
 #inside{
     margin-top:30px;
@@ -290,10 +298,11 @@ footer .arrow-up {
     color:#fff;
     font-size:20px;
     line-height: 25px;
-    background:url('images/icon_cross.png') no-repeat top center;
-    padding-top:100px;
+    background:url('images/icon_cross.png') no-repeat center center;
+    background-size: 50px 50px;
+    padding-top:130px;
     position:absolute;
-    margin-bottom:45px;
+    margin-bottom:15px;
     bottom:0;
     width:100%;    
 }
@@ -479,7 +488,7 @@ ul.persone {list-style: none;}
         font-size:48px;
     }
     
-    #inside.support .black-container .contact h2{
+    #inside.support .black-container .contact h2, #inside.visit .black-container .contact h2{
         font-size: 30px;
     }
     
@@ -564,6 +573,19 @@ ul.persone {list-style: none;}
     
     .support .partners ul li {
         height:  258px;   
+    }
+    
+    #inside .cover-image-persona p {
+        color:#fff;
+        font-size:20px;
+        line-height: 25px;
+        background:url('images/icon_cross.png') no-repeat top center;
+        background-size: 72px 72px;
+        padding-top:100px;
+        position:absolute;
+        margin-bottom:45px;
+        bottom:0;
+        width:100%;    
     }
 }
 /** end TABLET **/
