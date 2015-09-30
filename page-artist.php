@@ -9,6 +9,7 @@
  */
 
 $path_img = esc_url( get_template_directory_uri() ).'/images/';
+$pageID = get_the_ID();
 
 get_header(); ?>
 
@@ -30,23 +31,52 @@ get_header(); ?>
         }
         
         //ottengo il contenuto
-        $content = "";
-        if ( have_posts() ) :
-            // Start the loop.
-            while ( have_posts() ) : the_post();
-                $content = get_the_content();
-            // End the loop.
-            endwhile;
-         endif;
+        
+        $post = get_page($pageID);
+        $content = getTextBetweenTags('p', apply_filters('the_content', $post->post_content));    
+        
+        //ottengo gli artisti
+         $pages = get_posts(array(
+                'post_type' => 'page',
+                'meta_key' => '_wp_page_template',
+                'meta_value' => 'page-artist.php'
+        ));
+         
+        $artists = array();
+        foreach($pages as $page){
+            $artist = array();
+            $artist['image'] = wp_get_attachment_url( get_post_thumbnail_id($page->ID));
+            $artist['page'] = $page->guid;
+            $artist['name'] = $page->post_title;
+            $artist['ruolo'] = get_post_meta($page->ID, 'ruolo', true);
+            $artist['url'] = get_post_meta($page->ID, 'url', true);
+            $artist['ID'] = $page->ID;
+            $artist['linkTo'] = "";
+            //imposto il link del redirect
+            if($pageID == $artist['ID']){
+                $artist['linkTo'] = $artist['url'];
+                $artist['ruolo'] = 'See Works';
+            }
+            else{
+                $artist['linkTo'] = $artist['page'];
+            }
+            
+            array_push($artists, $artist);
+        }
         
     ?>
-        <div id="inside" class="visit">        
+        <div id="inside" class="visit">
             <div class="background-logo"></div>
-            <div class="row">
-                <div class="col-xs-12 col-md-6">
-                    <h2 class="red-1">B&AMP;A Gallery</h2>
-                    <p><?php echo $content ?></p>                    
-                </div>                
+            <div class="row">               
+                <h2 class="red-1 col-xs-12"><?php echo get_the_title($pageID) ?></h2>
+                
+                <?php if(count($content) > 0) { ?>
+                    <?php for($i=0; $i < count($content); $i++){ ?>
+                        <div class="col-xs-12 col-md-6">                    
+                            <p><?php echo $content[$i] ?></p>                    
+                        </div>
+                    <?php } ?> 
+                <?php } ?>
                            
             </div>
             <!-- Slider main container -->
@@ -84,6 +114,22 @@ get_header(); ?>
                     </div>
                 </div>                
             </div>  
+            
+            <ul class="persone nopadding">
+            <?php foreach($artists as $artist){ ?>
+                <li class="persona col-md-3 col-xs-6 nopadding">
+                    <a <?php if($pageID == $artist['ID']){echo 'target="_blank"';} ?> href="<?php echo $artist['linkTo'] ?>">
+                    <div class="cover-image-persona">
+                        <p>
+                            <?php echo $artist['name'] ?><br><?php echo $artist['ruolo'] ?>
+                        </p>
+                    </div>
+                    </a>
+                    <img src="<?php echo $artist['image'] ?>"  alt="<?php echo $artist['name'] ?>" style="width:100%" />
+                    
+                </li>                
+            <?php } ?>
+            </ul>
             
         </div>
     
