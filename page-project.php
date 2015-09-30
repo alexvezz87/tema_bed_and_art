@@ -9,6 +9,7 @@
  */
 
 $path_img = esc_url( get_template_directory_uri() ).'/images/';
+$pageID = get_the_ID();
 
 get_header(); ?>
 
@@ -59,52 +60,33 @@ get_header(); ?>
 
 
 
- <?php
+<?php
+
+    //Ottengo i campi dalla pagina            
+    $post_project = array();
     
-        //Ottengo tutti i custom post type di project
-        $args = array(
-            'post_type' => 'baa_projects',
-            'posts_per_page' => -1,
-            'tax_query' => array(
-		array(
-			'taxonomy' => 'project_type',
-			'field' => 'slug',
-			'terms' => 'campi-progetto'
-		)
-            )        
-        );
-        $posts = get_posts($args);  
+
+    if(get_post_meta($pageID, 'place', true) != ''){
+     $post_project['place'] = get_post_meta($pageID, 'place', true != '');
+    }
+
+   if(get_post_meta($pageID, 'project', true) != ''){
+       $post_project['project'] = get_post_meta($pageID, 'project', true);
+    }
+
+    if(get_post_meta($pageID, 'residence', true) != ''){
+        $post_project['residence'] = get_post_meta($pageID, 'residence', true);
+    }
+
+    if(get_post_meta($pageID, 'tourism', true) != ''){
+        $post_project['tourism'] = get_post_meta($pageID, 'tourism', true);
+    }            
+
+    if(get_post_meta($pageID, 'title', true) != ''){
+        $post_project['title-page'] = get_post_meta($pageID, 'title', true);
+    }           
         
-        $post_project = array();
-        
-        foreach ($posts as $post){
-            
-            if(get_post_meta($post->ID, 'place', true != '')){
-             $post_project['place'] = get_post_meta($post->ID, 'place', true != '');
-            }
-            
-           if(get_post_meta($post->ID, 'project', true) != ''){
-               $post_project['project'] = get_post_meta($post->ID, 'project', true);
-            }
-            
-            if(get_post_meta($post->ID, 'residence', true) != ''){
-                $post_project['residence'] = get_post_meta($post->ID, 'residence', true);
-            }
-            
-            if(get_post_meta($post->ID, 'tourism', true) != ''){
-                $post_project['tourism'] = get_post_meta($post->ID, 'tourism', true);
-            }            
-            
-        }
-        
-        //prendo il titolo
-        if ( have_posts() ) : 
-             while ( have_posts() ) : the_post();
-                $post_project['title-page'] = get_the_title();
-            endwhile;        
-        endif;
-        
-    ?>
+?>
         <div id="inside">        
             <div class="background-logo"></div>
             <div class="row">

@@ -61,48 +61,7 @@ get_header(); ?>
 
  <?php
     
-//        //Ottengo tutti i custom post type di project
-//        $args = array(
-//            'post_type' => 'baa_projects',
-//            'posts_per_page' => -1,
-//            'tax_query' => array(
-//		array(
-//			'taxonomy' => 'project_type',
-//			'field' => 'slug',
-//			'terms' => 'campi-progetto'
-//		)
-//            )        
-//        );
-//        $posts = get_posts($args);  
-//        
-//        $post_project = array();
-//        
-//        foreach ($posts as $post){
-//            
-//            if(get_post_meta($post->ID, 'place', true != '')){
-//             $post_project['place'] = get_post_meta($post->ID, 'place', true != '');
-//            }
-//            
-//           if(get_post_meta($post->ID, 'project', true) != ''){
-//               $post_project['project'] = get_post_meta($post->ID, 'project', true);
-//            }
-//            
-//            if(get_post_meta($post->ID, 'residence', true) != ''){
-//                $post_project['residence'] = get_post_meta($post->ID, 'residence', true);
-//            }
-//            
-//            if(get_post_meta($post->ID, 'tourism', true) != ''){
-//                $post_project['tourism'] = get_post_meta($post->ID, 'tourism', true);
-//            }            
-//            
-//        }
-//        
-//        //prendo il titolo
-//        if ( have_posts() ) : 
-//             while ( have_posts() ) : the_post();
-//                $post_project['title-page'] = get_the_title();
-//            endwhile;        
-//        endif;
+
  
         $gallery = array();
         $attachments = new Attachments( 'attachments', get_the_ID() );

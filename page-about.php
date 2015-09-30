@@ -9,6 +9,7 @@
  */
 
 $path_img = esc_url( get_template_directory_uri() ).'/images/';
+$pageID = get_the_ID();
 
 get_header(); ?>
 
@@ -63,31 +64,32 @@ get_header(); ?>
  <?php
     
         //Ottengo i valori relativi ai campi di descrizione
-        $args = array(
-            'post_type' => 'baa_abouts',
-            'posts_per_page' => -1,
-            'tax_query' => array(
-		array(
-			'taxonomy' => 'about_type',
-			'field' => 'slug',
-			'terms' => 'campi-about'
-		)
-            )        
-        );
-        $fields = get_posts($args);         
+//        $args = array(
+//            'post_type' => 'baa_abouts',
+//            'posts_per_page' => -1,
+//            'tax_query' => array(
+//		array(
+//			'taxonomy' => 'about_type',
+//			'field' => 'slug',
+//			'terms' => 'campi-about'
+//		)
+//            )        
+//        );
+//        $fields = get_posts($args);         
         
         $about_fields = array();
         
-        foreach($fields as $field){
-            $about_fields['title'] = $field->post_title;
-            
-            if(get_post_meta($field->ID, 'about', true != '')){
-                $about_fields['about'] = get_post_meta($field->ID, 'about', true);
-            }
-            
-            if(get_post_meta($field->ID, 'where', true != '')){
-                $about_fields['where'] = get_post_meta($field->ID, 'where', true);
-            }
+                      
+        if(get_post_meta($pageID, 'about', true) != ''){
+            $about_fields['about'] = get_post_meta($pageID, 'about', true);
+        }
+
+        if(get_post_meta($pageID, 'where', true) != ''){
+            $about_fields['where'] = get_post_meta($pageID, 'where', true);
+        }
+
+        if(get_post_meta($pageID, 'title', true) != ''){
+            $about_fields['title'] = get_post_meta($pageID, 'title', true);
         }
         
         
@@ -115,7 +117,10 @@ get_header(); ?>
         }
         
     ?>
-        <div id="inside" class="about">        
+        <div id="inside" class="about">    
+            <pre>
+                <?php print_r($pageID) ?>
+            </pre>
             <div class="background-logo"></div>
             <div class="row">
                 
