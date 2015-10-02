@@ -168,6 +168,70 @@ if ( ! function_exists('baa_gallerie') ) {
             register_post_type( 'baa_gallerie', $args );
             register_taxonomy('galleria_type', 'baa_gallerie', array('hierarchical' => true, 'label' => 'Categorie Galleria', 'query_var' => true, 'rewrite' => true));
             
+            
+        
+        function gallery_attachments( $attachments )
+        {
+          $fields         = array(
+            array(
+              'name'      => 'title',                         // unique field name
+              'type'      => 'text',                          // registered field type
+              'label'     => __( 'Title', 'attachments' ),    // label to display
+              'default'   => 'title',                         // default value upon selection
+            ),
+            array(
+              'name'      => 'caption',                       // unique field name
+              'type'      => 'textarea',                      // registered field type
+              'label'     => __( 'Caption', 'attachments' ),  // label to display
+              'default'   => 'caption',                       // default value upon selection
+            ),
+          );
+
+          $args = array(
+
+            // title of the meta box (string)
+            'label'         => 'My Attachments',
+
+            // all post types to utilize (string|array)
+            'post_type'     => array( 'baa_gallerie' ),
+
+            // meta box position (string) (normal, side or advanced)
+            'position'      => 'normal',
+
+            // meta box priority (string) (high, default, low, core)
+            'priority'      => 'high',
+
+            // allowed file type(s) (array) (image|video|text|audio|application)
+            'filetype'      => null,  // no filetype limit
+
+            // include a note within the meta box (string)
+            'note'          => 'Attach files here!',
+
+            // by default new Attachments will be appended to the list
+            // but you can have then prepend if you set this to false
+            'append'        => true,
+
+            // text for 'Attach' button in meta box (string)
+            'button_text'   => __( 'Attach Files', 'attachments' ),
+
+            // text for modal 'Attach' button (string)
+            'modal_text'    => __( 'Attach', 'attachments' ),
+
+            // which tab should be the default in the modal (string) (browse|upload)
+            'router'        => 'browse',
+
+            // whether Attachments should set 'Uploaded to' (if not already set)
+            'post_parent'   => false,
+
+            // fields array
+            'fields'        => $fields,
+
+          );
+
+          $attachments->register( 'gallery_attachments', $args ); // unique instance name
+        }
+
+        add_action( 'attachments_register', 'gallery_attachments' );
 
     }
 
@@ -525,17 +589,32 @@ if ( ! function_exists('baa_supports') ) {
 
 
 function printElement($post){
+    $attachments = new Attachments( 'gallery_attachments', $post->ID );
+    $path_img = esc_url( get_template_directory_uri() ).'/images/';
    
-    if( wp_get_attachment_url( get_post_thumbnail_id($post->ID))!= false){
+    if($attachments->exist()){
+        //VIDEO INTERNO
+        echo '<div class="swiper-slide video-player-interno">';
+        echo '<video class="cover-video" controls>';
+        while($attachments->get()){
+            $extension = explode('.', $attachments->url());
+            $ext = $extension[count($extension)-1];
+            echo '<source src="'.$attachments->url().'" type="video/'.$ext.'">';
+        }               
+        echo '</video>';
+        echo '<div class="slide-description"><img src="'.$path_img.'video_play_black.png" /><h1 class="hidden-xs hidden-sm">'.$post->post_title.'</h1><p class="hidden-xs hidden-sm">'.$post->post_content.'</p></div>';
+        echo '</div>';
+    }      
+    else if( wp_get_attachment_url( get_post_thumbnail_id($post->ID))!= false){
         //è un'immagine
         echo '<div class="swiper-slide">';
         echo '<div class="swiper-slide-image" style="background:url(\''.wp_get_attachment_url( get_post_thumbnail_id($post->ID)).'\') center center" />';
         echo '<div class="slide-description hidden-xs hidden-sm"><h1>'.$post->post_title.'</h1><p>'.$post->post_content.'</p></div>';
         echo '</div>';
         echo '</div>';
-    }
+    }    
     else{
-        //è un video               
+        //è un video di youtube           
         $embed_video = str_replace('watch?v=', 'embed/', get_post_meta($post->ID, 'video', true));  
         echo '<div class="swiper-slide video-player">';
         echo '<div class="cover-video" style="width:100%; height:100%; position:absolute; z-index:9999; cursor:pointer"></div>';

@@ -37,8 +37,9 @@ get_header(); ?>
                    
         <?php
         
+       
         foreach($posts as $post){
-            printElement($post);
+            printElement($post);           
         } 
     ?>
         
@@ -53,7 +54,7 @@ get_header(); ?>
             </div> 
         
         </div>
-       
+        
     
-</div>   
+</div>  
 <?php get_footer(); ?>

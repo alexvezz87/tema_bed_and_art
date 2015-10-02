@@ -134,6 +134,18 @@ header #hamburger-menu {
     text-shadow: rgb(0, 0, 0) 2px 1px 3px;
 }
 
+.video-player-interno .slide-description {
+    /* suppongo sia senza miniatura a sfondo bianco */
+    color: #343434;
+    text-shadow: none;
+    font-weight: 300;
+}
+
+.video-player-interno .slide-description img {
+    margin-bottom:20px;
+    cursor: pointer;
+}
+
 .slide-description > * {
     max-width: 700px;
     margin:auto;
@@ -162,6 +174,17 @@ header #hamburger-menu {
     color:#fff;
     text-decoration: none;    
 }
+
+.swiper-container .video-player-interno {
+    display:table;
+}
+.swiper-container .video-player-interno video {
+    width:100%;   
+    z-index: 9999;
+    cursor: pointer;
+    display: none;    
+}
+
 /* end SWIPER */
 
 /* SWIPER inside */

@@ -19,6 +19,7 @@ $( document ).ready(function() {
     //initialize swiper when document ready  
     var mySwiper = new Swiper ('.swiper-container', {
       // Optional parameters
+      initialSlide : 1,
       direction: 'horizontal',
       loop: true,
       nextButton : '.swiper-button-next',
@@ -32,6 +33,13 @@ $( document ).ready(function() {
         $(this).find('.video-player').attr('src', $(this).find('.video-player').attr('src')+'?autoplay=1');
         ev.preventDefault();
     });
+    
+    //faccio partire il video al click
+    $('.video-player-interno').click(function(){
+        $(this).find('.cover-video').show();
+        $(this).find('.slide-description').hide();
+        $(this).find('video').get(0).play();
+    });    
     
     $('.swiper-button-next, .swiper-button-prev').click(function(){
         $('.discover-more').show();
@@ -91,6 +99,7 @@ function resizeSwiperContainer(){
     var h = $(window).height() - $('header').height();
     $('.swiper-container').css('height', h+'px');
     $('.swiper-slide-image').css('height', h+'px');
+    $('.swiper-slide.video-player-interno video').css('height', h+'px');
 }
 
 function resizeItemMenu(){
