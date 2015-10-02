@@ -117,10 +117,7 @@ get_header(); ?>
         }
         
     ?>
-        <div id="inside" class="about">    
-            <pre>
-                <?php print_r($pageID) ?>
-            </pre>
+        <div id="inside" class="about">              
             <div class="background-logo"></div>
             <div class="row">
                 
