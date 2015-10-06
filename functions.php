@@ -739,4 +739,113 @@ function getTextBetweenTags($tag, $html, $strict=0){
     return $out;
 }
 
+function printPreviewBlogPost($item){
+?>    
+
+    <div class="blog-post">
+        <h2 class="red-1"><?php echo $item->post_title ?></h2>
+        <h4><?php echo get_the_author_meta('display_name', $item->post_author ); ?> - <?php echo get_the_date('', $item->ID) ?></h4>
+        <div class="image">
+            <a href="<?php echo $item->guid ?>">
+                <img src="<?php echo wp_get_attachment_url( get_post_thumbnail_id($item->ID))  ?>"  alt="<?php echo $item->post_title ?>" />
+            </a>
+        </div>
+        <div class="excerpt">
+            <p><?php echo $item->post_excerpt ?></p>
+        </div>
+        <div class="link">
+            <a href="<?php echo $item->guid ?>">See more ></a>
+        </div>
+    </div>
+<?php
+}
+
+function printPreviewBlogPosts($fields){
+ 
+    $count_post = 0;   
+    foreach($fields as $item){
+        if($count_post == 0){
+?>
+            <div class="row">
+                <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+                    <?php printPreviewBlogPost($item); ?>
+                </div>
+            </div>
+
+<?php 
+        }
+        else{
+            if($count_post % 2 != 0){
+                ?>
+                    <div class="row">
+                <?php
+            }
+?>                    
+            <div class="col-xs-12 col-md-6">
+                <?php printPreviewBlogPost($item); ?>
+            </div>                        
+<?php
+            if($count_post % 2 == 0 || $count_post == (count($fields) - 1)){
+                //chiudo il div se il post è divisibile per due oppure è l'ultimo
+                ?>
+                    </div>
+                <?php
+            }
+        }
+        $count_post++;
+    }
+            
+}
+
+
+add_action( 'wp_ajax_my_ajax', 'my_ajax_callback' );
+add_action( 'wp_ajax_nopriv_my_ajax', 'my_ajax_callback' );
+function my_ajax_callback(){    
+    
+    if(isset($_POST['offset'])){
+        //faccio una call con offset indicato
+        $args = array(
+            'posts_per_page'   => 4,
+            'offset'           => $_POST['offset'],
+            'category'         => '',
+            'category_name'    => '',
+            'orderby'          => 'date',
+            'order'            => 'DESC',
+            'include'          => '',
+            'exclude'          => '',
+            'meta_key'         => '',
+            'meta_value'       => '',
+            'post_type'        => 'post',
+            'post_mime_type'   => '',
+            'post_parent'      => '',
+            'author'	   => '',
+            'post_status'      => 'publish',
+            'suppress_filters' => true 
+        );
+        
+       $fields = get_posts($args); 
+       $result = array();
+       foreach($fields as $item){
+           $temp = array();
+           $temp['title'] = $item->post_title;
+           $temp['subtitle'] = get_the_author_meta('display_name', $item->post_author ).' - '.get_the_date('', $item->ID);
+           $temp['image'] = wp_get_attachment_url( get_post_thumbnail_id($item->ID));
+           $temp['excerpt'] = $item->post_excerpt;
+           $temp['link'] = $item->guid;
+           
+           array_push($result, $temp);
+           
+       }
+       
+       
+       echo json_encode($result);
+       wp_die();  
+        
+    }
+    else{
+        echo 'miao';
+    }
+    
+}
+
 ?>
