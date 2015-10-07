@@ -46,14 +46,14 @@ get_header(); ?>
         
     ?>
         <div id="inside" class="blog-list"> 
-            
+            <div class="background-logo"></div>
         <?php printPreviewBlogPosts($fields)   ; ?>
             
             
             <div id="more-results"></div>
             <div class="more-results-search">
                 <input type="hidden" name="number-current-posts" value="5" autocomplete="off" />
-                <button id="more-post">More results</button> 
+                <a id="more-post">Show more</a> 
             </div>            
             
         </div>
@@ -88,7 +88,7 @@ get_header(); ?>
             function printMorePosts(data){
                 jQuery(function(){                   
                      
-                    var html = ""; 
+                    var html = '<div class="new-result">'; 
                     if(data.length > 0){
                         var count_post = 1;
                         for(var i=0; i < data.length; i++){
@@ -108,8 +108,10 @@ get_header(); ?>
                         //html += '<div class="no-articoli">Non ci sono altri articoli da visualizzare</div>';
                         jQuery('#more-post').hide();
                     }
+                    html+='</div>';
                     
                     jQuery('#more-results').append(html);
+                    jQuery('.new-result').fadeIn('slow');
                 });
             }
             
