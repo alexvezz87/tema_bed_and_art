@@ -719,7 +719,7 @@ function getTextBetweenTags($tag, $html, $strict=0){
     }
     else
     {
-        $dom->loadHTML($html);
+        @$dom->loadHTML($html);
     }
 
     /*** discard white space ***/

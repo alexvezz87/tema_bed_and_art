@@ -21,14 +21,13 @@ $path_css = esc_url( get_template_directory_uri() ).'/css/';
 //ottengo il menu
 $menu = wp_get_nav_menu_items( 'primary');
 
-
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?> class="no-js">
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width">
-        <title>Bed and Art</title>
+        <title>Bed and Art - <?php echo get_the_title(get_the_ID()); ?></title>
 	
 	<!--[if lt IE 9]>
 	<script src="<?php echo $path_js ?>html5.js"></script>

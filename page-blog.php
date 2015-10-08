@@ -49,13 +49,13 @@ get_header(); ?>
             <div class="background-logo"></div>
         <?php printPreviewBlogPosts($fields)   ; ?>
             
-            
+        <?php if(count($fields) > 4) { ?>
             <div id="more-results"></div>
             <div class="more-results-search">
                 <input type="hidden" name="number-current-posts" value="5" autocomplete="off" />
                 <a id="more-post">Show more</a> 
             </div>            
-            
+        <?php } ?>    
         </div>
         <script type="text/javascript">
             jQuery(document).ready(function(){
