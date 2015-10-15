@@ -548,7 +548,7 @@ ul.persone {list-style: none;}
     padding-bottom: 60px;
 }
 
-#more-post, #more-post:hover {
+#more-post, #more-post:hover, .go-to-posts a span {
     text-transform: uppercase;
     display: block;
     padding:10px;
@@ -562,26 +562,86 @@ ul.persone {list-style: none;}
     cursor:pointer;
 }
 
+.go-to-posts {
+    margin-bottom:20px;
+    margin-top:50px;
+}
+
+.go-to-posts a {
+    text-decoration: none;
+    margin-bottom:10px;    
+    min-width:170px;
+}
+
+.go-to-posts a.previous {float:left;}
+.go-to-posts a.next {float:right;}
+
+.go-to-posts a span {
+    display: block;
+    width:100%;
+    min-width:170px;
+}
+
 .new-result{
     display: none;
 }
 
 .content #huge-it-share-buttons-top{
-    display:none;
+    display:none !important;
 }
 
 #huge-it-share-buttons-top{
-    float:right;
+    display:block !important;
+    margin:auto !important;
+}
+
+.huge-it-share-buttons ul {
+    float: none !important;
+    display: block;
+    margin: auto !important;    
+    width: 245px;
 }
 
 .header-post {
-    margin-bottom:55px;
+    margin-bottom:25px;
 }
 
-.header-post .titles-post {float:left;}
+.header-post .titles-post {display: block; text-align: center; margin-bottom:25px;}
+
+.huge-it-share-buttons h3 {display:none !important}
 
 #inside.blog-list .blog-post .header-post .titles-post h4 {
     margin-bottom: 0px;
+}
+
+#inside.blog-list .blog-post .link{
+    margin:0;
+    position:absolute;    
+    width:100%;
+    height: 100%;   
+    background:rgba(0,0,0,0.8);
+    color:#fff;    
+    text-align: center;
+    display:none;
+}
+#inside.blog-list .blog-post .link a, #inside.blog-list .blog-post .link a:hover {
+    color:#fff;
+    display:table-cell;
+    vertical-align: middle;
+    font-size:40px;
+    text-align: center;
+}
+
+#inside.blog-list.single-blog p{
+    font-size:medium;
+    margin:0;
+}
+
+#inside.blog-list .row {margin-bottom:30px;}
+#inside.blog-list.single-blog .row {margin-bottom:0px;}
+
+.go-to-posts {
+    text-align: center;
 }
 
 /** end BLOG **/
@@ -738,6 +798,10 @@ ul.persone {list-style: none;}
     
     #inside{
         padding-top:100px;
+    }
+    
+    #inside.blog-list {
+        padding-top:20px;
     }
     
     #inside.about {

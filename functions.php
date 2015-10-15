@@ -747,15 +747,17 @@ function printPreviewBlogPost($item){
         <h4><?php echo get_the_author_meta('display_name', $item->post_author ); ?> - <?php echo get_the_date('', $item->ID) ?></h4>
         <div class="image">
             <a href="<?php echo $item->guid ?>">
-                <img src="<?php echo wp_get_attachment_url( get_post_thumbnail_id($item->ID))  ?>"  alt="<?php echo $item->post_title ?>" />
+                <div class="link">
+                    <a href="<?php echo $item->guid ?>">See more ></a>
+                </div>
+                <img src="<?php echo wp_get_attachment_url( get_post_thumbnail_id($item->ID))  ?>"  alt="<?php echo $item->post_title ?>" />                 
             </a>
+           
         </div>
         <div class="excerpt">
             <p><?php echo $item->post_excerpt ?></p>
         </div>
-        <div class="link">
-            <a href="<?php echo $item->guid ?>">See more ></a>
-        </div>
+        
     </div>
 <?php
 }

@@ -109,6 +109,10 @@ get_header(); ?>
                         jQuery('#more-post').hide();
                     }
                     html+='</div>';
+                    html+= '<script>';
+                    html+='$( document ).ready(function() { $(\'#inside.blog-list .blog-post\').hover(function(){ $(this).find(\'.link\').fadeIn(\'slow\'); $(this).find(\'.link\').css(\'display\', \'table\'); }, function(){ $(this).find(\'.link\').hide(); }); });';
+                    html+='</script';
+                    html+='>';
                     
                     jQuery('#more-results').append(html);
                     jQuery('.new-result').fadeIn('slow');
@@ -120,9 +124,8 @@ get_header(); ?>
                 html+='<div class="blog-post">';
                 html+='<h2 class="red-1">'+item.title+'</h2>';
                 html+='<h4>'+item.subtitle+'</h4>';
-                html+='<div class="image"><a href="'+item.link+'"><img src="'+item.image+'" alt="'+item.title+'" /></a></div>';
-                html+='<div class="excerpt"><p>'+item.excerpt+'</p></div>';
-                html+='<div class="link"><a href="'+item.link+'">See more > </a></div>';
+                html+='<div class="image"><div class="link"><a href="'+item.link+'">See more > </a></div><a href="'+item.link+'"><img src="'+item.image+'" alt="'+item.title+'" /></a></div>';
+                html+='<div class="excerpt"><p>'+item.excerpt+'</p></div>';                
                 html+='</div>';
                 return html;
             }

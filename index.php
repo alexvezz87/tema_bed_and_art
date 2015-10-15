@@ -27,7 +27,7 @@ get_header(); ?>
 <div class="fill nopadding">       
     <div class="col-xs-12 nopadding">
         
-         <div id="inside" class="blog-list"> 
+         <div id="inside" class="blog-list single-blog"> 
             <div class="background-logo"></div>
            
                 
@@ -36,7 +36,7 @@ get_header(); ?>
            <?php $author = get_the_author_meta('ID'); ?>
              
             <div class="row">
-                <div class="col-xs-12 blog-post">
+                <div class="col-xs-12 col-sm-8 col-sm-push-2 blog-post">
                     <div class="header-post">
                         <div class="titles-post">
                             <h2 class="red-1"><?php single_post_title(); ?></h2>
@@ -69,10 +69,33 @@ get_header(); ?>
                     get_template_part( 'content', get_post_format() );
 
             // End the loop.
+                    
+            ?>
+                    <div class="go-to-posts col-xs-12">
+
+            <?php
+                    $prev_post = get_previous_post();
+                    if (!empty( $prev_post )): ?>
+                        <a class="previous col-xs-12 col-sm-4 " href="<?php echo get_permalink( $prev_post->ID ); ?>"><span>&lt; PREVIOUS</span></a>
+                    <?php
+                    endif;
+            
+                    $next_post = get_next_post();
+                    if (!empty( $next_post )): ?>
+                        <a class="next col-xs-12 col-sm-4 " href="<?php echo get_permalink( $next_post->ID ); ?>"><span>NEXT &gt;</span></a>
+                    <?php
+                    endif;
+            ?>
+                    </div>
+            <?php  
+                    
             endwhile;
             ?>
             
                 </div>
+                
+                
+                
             </div>
             <?php
 

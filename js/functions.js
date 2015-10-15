@@ -91,8 +91,32 @@ $( document ).ready(function() {
     
     $('input[name="wysija[user][email]"]').attr('placeholder', 'Email *');
     
+    //BLOG
+    //sistemo il div che sovrappone l'immagine sull'hover
+    resizeCoverLinkBlogPost();
+    $(window).resize(function(){
+        resizeCoverLinkBlogPost();
+    });
+    
     
 });
+
+function resizeCoverLinkBlogPost(){
+        
+    $('#inside.blog-list .blog-post').hover(function(){
+         $('#inside.blog-list .blog-post').each(function(){
+            var w = $(this).find('img').width();
+            var h = $(this).find('img').height();
+            $(this).find('.link').css('width', w+'px');
+            $(this).find('.link').css('height', h+'px');
+        });
+        $(this).find('.link').fadeIn('slow');
+        $(this).find('.link').css('display', 'table');
+    },
+    function(){
+        $(this).find('.link').hide();
+    });
+}
 
 
 function resizeSwiperContainer(){   
