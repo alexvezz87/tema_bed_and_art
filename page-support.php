@@ -126,7 +126,7 @@ get_header(); ?>
             </div>
             <div class="half-row black-container">                
                 <div class="col-xs-12 contact col-dx">
-                    <h2>Call for support the B&&AMP;Art</h2>
+                    <h2>Call for support the Bed&AMP;Art</h2>
                     <div class="form-container">
                         <?php echo do_shortcode('[contact-form-7 id="142" title="support-form"]') ?>
                     </div>

@@ -750,7 +750,7 @@ function printPreviewBlogPost($item){
                 <div class="link">
                     <a href="<?php echo $item->guid ?>">See more ></a>
                 </div>
-                <img src="<?php echo wp_get_attachment_url( get_post_thumbnail_id($item->ID))  ?>"  alt="<?php echo $item->post_title ?>" />                 
+                <div class="image-post" style="background:url('<?php echo wp_get_attachment_url( get_post_thumbnail_id($item->ID))  ?>') center center"></div>                
             </a>
            
         </div>
@@ -769,7 +769,7 @@ function printPreviewBlogPosts($fields){
         if($count_post == 0){
 ?>
             <div class="row">
-                <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+                <div class="col-xs-12 col-sm-10 col-sm-offset-1 first-post">
                     <?php printPreviewBlogPost($item); ?>
                 </div>
             </div>
@@ -783,7 +783,7 @@ function printPreviewBlogPosts($fields){
                 <?php
             }
 ?>                    
-            <div class="col-xs-12 col-md-6">
+            <div class="col-xs-12 col-md-6 not-first-post">
                 <?php printPreviewBlogPost($item); ?>
             </div>                        
 <?php

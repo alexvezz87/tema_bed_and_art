@@ -92,7 +92,7 @@ $( document ).ready(function() {
     $('input[name="wysija[user][email]"]').attr('placeholder', 'Email *');
     
     //BLOG
-    //sistemo il div che sovrappone l'immagine sull'hover
+    //sistemo il div che sovrappone l'immagine sull'hover   
     resizeCoverLinkBlogPost();
     $(window).resize(function(){
         resizeCoverLinkBlogPost();
@@ -102,19 +102,30 @@ $( document ).ready(function() {
 });
 
 function resizeCoverLinkBlogPost(){
-        
+    $('#inside.blog-list .blog-post').each(function(){
+        var w = $(this).find('.image-post').width();
+        var h = w * 1.5;
+        $(this).find('.image-post').css('#height', h+'px');
+        $(this).find('.image').css('width', w+'px');
+        $(this).find('.image').css('height', h+'px');            
+        $(this).find('.link').css('width', w+'px');
+        $(this).find('.link').css('height', h+'px');
+    });    
+   
     $('#inside.blog-list .blog-post').hover(function(){
          $('#inside.blog-list .blog-post').each(function(){
-            var w = $(this).find('img').width();
-            var h = $(this).find('img').height();
+            var w = $(this).find('.image-post').width();
+            var h = w * 1.5;       
+            $(this).find('.image').css('width', w+'px');
+            $(this).find('.image').css('height', h+'px');            
             $(this).find('.link').css('width', w+'px');
             $(this).find('.link').css('height', h+'px');
         });
-        $(this).find('.link').fadeIn('slow');
+        $(this).find('.link').stop().fadeIn('slow');
         $(this).find('.link').css('display', 'table');
     },
     function(){
-        $(this).find('.link').hide();
+        $(this).find('.link').stop().fadeOut();
     });
 }
 

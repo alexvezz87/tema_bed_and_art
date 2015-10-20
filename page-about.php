@@ -145,7 +145,7 @@ get_header(); ?>
                 </li>                
             <?php } ?>
             </ul>
-            
+            <div style="clear:both; display:block; width:100%"></div>
             
             <div class="half-row">
                 <div class="col-xs-12 ">

@@ -95,7 +95,7 @@ get_header(); ?>
                             if(count_post % 2 !== 0){
                                 html+='<div class="row">';
                             }
-                            html+='<div class="col-xs-12 col-md-6">';
+                            html+='<div class="col-xs-12 col-md-6 not-first-post">';
                             html+= printSinglePost(data[i]);
                             html+='</div>';
                             if(count_post % 2 === 0 || count_post === (data.length)){
@@ -110,7 +110,7 @@ get_header(); ?>
                     }
                     html+='</div>';
                     html+= '<script>';
-                    html+='$( document ).ready(function() { $(\'#inside.blog-list .blog-post\').hover(function(){ $(this).find(\'.link\').fadeIn(\'slow\'); $(this).find(\'.link\').css(\'display\', \'table\'); }, function(){ $(this).find(\'.link\').hide(); }); });';
+                    html+='resizeCoverLinkBlogPost()';
                     html+='</script';
                     html+='>';
                     
@@ -124,7 +124,7 @@ get_header(); ?>
                 html+='<div class="blog-post">';
                 html+='<h2 class="red-1">'+item.title+'</h2>';
                 html+='<h4>'+item.subtitle+'</h4>';
-                html+='<div class="image"><div class="link"><a href="'+item.link+'">See more > </a></div><a href="'+item.link+'"><img src="'+item.image+'" alt="'+item.title+'" /></a></div>';
+                html+='<div class="image"><div class="link"><a href="'+item.link+'">See more > </a></div><a href="'+item.link+'"><div class="image-post" style="background:url(\''+item.image+'\') center center"></div></a></div>';
                 html+='<div class="excerpt"><p>'+item.excerpt+'</p></div>';                
                 html+='</div>';
                 return html;
