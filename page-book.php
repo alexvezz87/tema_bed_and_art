@@ -60,7 +60,7 @@ get_header(); ?>
 
 
  <?php
-    
+        //BOOKS
         //Ottengo i valori relativi ai campi di descrizione
         $args = array(
             'post_type' => 'baa_books',
@@ -87,6 +87,37 @@ get_header(); ?>
             array_push($books, $book);
         }
         
+        //VIDEO
+        //Ottengo i valori relativi ai campi di descrizione
+        $args = array(
+            'post_type' => 'baa_videos',
+            'posts_per_page' => -1,
+            'tax_query' => array(
+		array(
+			'taxonomy' => 'video_type',
+			'field' => 'slug',
+			'terms' => 'video-detail'
+		)
+            )        
+        );
+        $fields = get_posts($args); 
+        
+        $videos = array();
+        foreach($fields as $field){
+            $video = array();
+            $video['titolo'] = $field->post_title;
+            $video['descrizione'] = $field->post_content;
+            $video['image'] = wp_get_attachment_url( get_post_thumbnail_id($field->ID));  
+            $embed_video = explode('watch?v=', get_post_meta($field->ID, 'video', true));
+            $idVideo = $embed_video[count($embed_video)-1];
+            
+            $video['url'] = $idVideo;
+            
+            
+            array_push($videos, $video);
+        }
+        
+        //print_r($videos);
         
     ?>
         <div id="inside" class="book"> 
@@ -113,6 +144,37 @@ get_header(); ?>
                         </div>
                     </li>                   
                     <?php } ?> 
+                </ul>      
+            </div>
+            <?php } ?>          
+        </div>
+        
+        <div class="video"> 
+            <?php if(count($videos) > 0) {?>
+            <div class="row">
+                <ul class="videos-container col-xs-12">
+                    <?php foreach($videos as $video) { ?>
+                    <li class="col-xs-12 col-md-6 video-thumb">
+                        <div class="col-xs-12 bg-video hidden-xs hidden-sm" style="background: url('<?php echo $video['image'] ?>')">
+                            <div class="play"></div>
+                        </div>
+                        <iframe class="col-xs-12 visible-xs visible-sm bg-video" src="https://www.youtube.com/embed/<?php echo $video['url'] ?>?rel=0" frameborder="0" allowfullscreen></iframe>
+                        <div class="col-xs-12">
+                            <h3><?php echo $video['titolo'] ?></h3>
+                            <p>
+                                <?php echo $video['descrizione'] ?>
+                            </p>
+                        </div>     
+                    </li> 
+                    <li class="col-xs-12 no-padding iframe-container hidden-xs hidden-sm">
+                        <div class="row2">
+                            <div class="close-container"></div>
+                            <iframe class="col-xs-12" src="https://www.youtube.com/embed/<?php echo $video['url'] ?>?rel=0" frameborder="0" allowfullscreen></iframe>
+                            <div class="clear"></div>
+                        </div>
+                    </li>
+                    <?php } ?> 
+                    <li class="clear"></li>
                 </ul>      
             </div>
             <?php } ?>          

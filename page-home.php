@@ -8,53 +8,53 @@
  *Template Name: Home Page
  */
 
-get_header(); ?>
+get_header(); 
+
+$path_img = esc_url( get_template_directory_uri() ).'/images/';
+?>
 
 
-    <div class="fill nopadding">       
-        <div clasS="col-xs-12 nopadding">
-    <?php
-        //Ottengo tutti i custom post type di Galleria Home
-        $args = array(
-            'post_type' => 'baa_gallerie',
-            'posts_per_page' => -1,
-            'tax_query' => array(
-		array(
-			'taxonomy' => 'galleria_type',
-			'field' => 'slug',
-			'terms' => 'home'
-		)
-                )
-            );
-        $posts = get_posts($args);
-        
-        ?>
-        <!-- Slider main container -->
-            <div class="swiper-container">
-                <!-- Additional required wrapper -->
-                <div class="swiper-wrapper">
-                    <!-- Slides -->                   
-                   
-        <?php
-        
-       
-        foreach($posts as $post){
-            printElement($post);           
-        } 
-    ?>
-        
-                </div>               
-
-                <!-- If we need navigation buttons -->
-            <?php if(count($posts) > 1){ ?>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-            <?php } ?>
-
-            </div> 
-        
-        </div>
-        
     
-</div>  
-<?php get_footer(); ?>
+<div style="overflow: hidden; width:100%">
+<div id="video"></div>
+</div>
+
+
+
+    <script>
+
+         $('#video').YTPlayer({
+
+            fitToBackground: true,
+
+            videoId: '8Q99ypFlqWU',            
+            pauseOnScroll: false,
+            pauseVideo: false,
+            width: '100%',
+            
+            playerVars: {
+                modestbranding: 0,
+                autoplay: 1,
+                controls: 0,
+                showinfo: 0,
+                wmode: 'transparent',
+                rel: 0,
+                autohide: 0                
+              }
+             
+           
+
+        });
+
+    </script>
+
+    
+
+  <?php printFooter() ?>
+
+
+
+
+</body>
+
+</html>

@@ -42,8 +42,9 @@ $menu = wp_get_nav_menu_items( 'primary');
         <script src="<?php echo $path_js ?>swiper.jquery.umd.min.js"></script>        
         <!-- end swiper -->  
         
-        <script src="<?php echo $path_js ?>jquery-2.1.4.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.js"></script>        
         <script src="<?php echo $path_js ?>bootstrap.min.js"></script>    
+        <script src="<?php echo $path_js ?>jquery.youtubebackground.js"></script>    
         <script src="<?php echo $path_js ?>functions.js"></script>
        
         
@@ -55,7 +56,7 @@ $menu = wp_get_nav_menu_items( 'primary');
         
 	<?php wp_head(); ?>
 </head>
-
+<body>
 <header class="container-fluid" id="header-top">
     <div class="row">
         <div class="col-xs-12 logo-container">

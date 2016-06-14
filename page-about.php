@@ -91,7 +91,9 @@ get_header(); ?>
         if(get_post_meta($pageID, 'title', true) != ''){
             $about_fields['title'] = get_post_meta($pageID, 'title', true);
         }
-        
+        if(get_post_meta($pageID, 'subtitle', true) != ''){
+            $about_fields['subtitle'] = get_post_meta($pageID, 'subtitle', true);
+        }
         
         //Ottengo i valori relativi alle persone
         $args = array(
@@ -116,6 +118,8 @@ get_header(); ?>
             array_push($persone, $persona);
         }
         
+        $persone = array_reverse($persone);
+        
     ?>
         <div id="inside" class="about">              
             <div class="background-logo"></div>
@@ -123,6 +127,7 @@ get_header(); ?>
                 
                 <div class="col-xs-12 col-md-6 col-md-push-6 col-dx">
                     <h2 class="red-1 title-page"><?php echo $about_fields['title'] ?></h2>
+                    <p><?php echo $about_fields['subtitle'] ?></p>
                 </div>     
                 
                 <div class="col-xs-12 col-md-6 col-md-pull-6">
@@ -134,7 +139,7 @@ get_header(); ?>
             
             <ul class="persone nopadding">
             <?php foreach($persone as $persona){ ?>
-                <li class="persona col-md-3 col-xs-6 nopadding">
+                <li class="persona col-md-4 col-xs-6 nopadding">
                     <div class="cover-image-persona">
                         <p>
                             <?php echo $persona['nome'] ?><br><?php echo $persona['ruolo'] ?>
@@ -157,7 +162,7 @@ get_header(); ?>
                 <div class="col-xs-12 contact col-dx">
                     <h2>Contact</h2>
                     <div class="form-container">
-                        <?php echo do_shortcode('[contact-form-7 id="108" title="form-mail"]') ?>
+                        <?php echo do_shortcode('[contact-form-7 id="7" title="form-mail"]') ?>
                     </div>
                 </div>                
             </div>            
@@ -177,6 +182,29 @@ get_header(); ?>
                     population: 2714856
                   }
                 };
+                
+                var styles = [ {
+                    stylers: [
+                                { saturation: "-100" }
+                ]
+                },{
+                featureType: "road",
+                elementType: "labels",
+                stylers: [
+                        { visibility: "on" },
+                                { weight: 0.8 }
+                ]
+                        },{
+                        featureType: "road.local",
+                        elementType: "geometry",
+                        stylers: [
+                                { hue: "#000" },
+                                { saturation: 80 }
+                        ]
+                    }
+                ];
+                
+                
 
                 function initMap() {
                   // Create the map.
@@ -187,6 +215,8 @@ get_header(); ?>
                     streetViewControl: true,
                     disableDefaultUI: false
                   });
+                  
+                  var styledMap = new google.maps.StyledMapType(styles, {name: "Styled Map"});
 
                   // Construct the circle for each value in citymap.
                   // Note: We scale the area of the circle based on the population.
@@ -203,6 +233,9 @@ get_header(); ?>
                       radius: Math.sqrt(citymap[city].population) * 0.2
                     });
                   }
+                  
+                    map.mapTypes.set('map_style', styledMap);
+                    map.setMapTypeId('map_style');
                 }
 
             </script>

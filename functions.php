@@ -26,6 +26,12 @@
  * @since Bed and Art 1.0
  */
 
+
+@ini_set( 'upload_max_size' , '128M' );
+@ini_set( 'post_max_size', '128M');
+@ini_set( 'max_execution_time', '600' );
+
+
 /**
  * Bed and Art only works in WordPress 4.1 or later.
  */
@@ -584,7 +590,105 @@ if ( ! function_exists('baa_supports') ) {
     } 
 }
 
+//Aggiungo Custom post type per Video
+if ( ! function_exists('baa_videos') ) {
 
+    // Register Custom Post Type
+    function baa_videos() {
+
+            $labels = array(
+                    'name'                => __( 'Videos', 'Post Type General Name', 'baa_videos' ),
+                    'singular_name'       => __( 'Video', 'Post Type Singular Name', 'baa_videos' ),
+                    'menu_name'           => __( 'Video', 'baa_videos' ),
+                    'parent_item_colon'   => __( 'Parent Item:', 'baa_videos' ),
+                    'all_items'           => __( 'Tutti gli elementi', 'baa_videos' ),
+                    'view_item'           => __( 'View Item', 'baa_videos' ),
+                    'add_new_item'        => __( 'Aggiungi nuovo', 'baa_videos' ),
+                    'add_new'             => __( 'Aggiungi nuovo', 'baa_videos' ),
+                    'edit_item'           => __( 'Edit Item', 'baa_videos' ),
+                    'update_item'         => __( 'Aggiorna', 'baa_videos' ),
+                    'search_items'        => __( 'Search Item', 'baa_videos' ),
+                    'not_found'           => __( 'Not found', 'baa_videos' ),
+                    'not_found_in_trash'  => __( 'Not found in Trash', 'baa_videos' ),
+            );
+            $rewrite = array(
+                    'slug'                => 'baa_videos',
+                    'with_front'          => true,
+                    'pages'               => true,
+                    'feeds'               => true,
+            );
+            $args = array(
+                    'label'               => __( 'baa_videos', 'baa_videos' ),
+                    'description'         => __( 'Videos in Bed and Art', 'baa_videos' ),
+                    
+                    'labels'              => $labels,
+                    'supports'            => array( 'title', 'editor', 'escerpt', 'thumbnail', 'custom-fields' ),
+                    'hierarchical'        => false,
+                    'public'              => false,
+                    'show_ui'             => true,
+                    'show_in_menu'        => true,
+                    'show_in_nav_menus'   => false,
+                    'show_in_admin_bar'   => true,
+                    'menu_position'       => 6,
+                    'can_export'          => true,
+                    'has_archive'         => true,
+                    'exclude_from_search' => true,
+                    'publicly_queryable'  => true,
+                    'rewrite'             => $rewrite,
+                    'capability_type'     => 'post',
+            );
+
+
+            register_post_type( 'baa_videos', $args );
+            register_taxonomy('video_type', 'baa_videos', array('hierarchical' => true, 'label' => 'Categorie Video', 'query_var' => true, 'rewrite' => true));
+
+    }
+
+    // Hook into the 'init' action
+    add_action( 'init', 'baa_videos', 0 );   
+    
+    
+    /**
+ * Display a custom taxonomy dropdown in admin
+ * @author Mike Hemberger
+ * @link http://thestizmedia.com/custom-post-type-filter-admin-custom-taxonomy/
+ */
+    add_action('restrict_manage_posts', 'tsm_filter_post_type_by_taxonomy_videos');
+    function tsm_filter_post_type_by_taxonomy_videos() {
+	global $typenow;
+	$post_type = 'baa_videos'; // change to your post type
+	$taxonomy  = 'video_type'; // change to your taxonomy
+	if ($typenow == $post_type) {
+		$selected      = isset($_GET[$taxonomy]) ? $_GET[$taxonomy] : '';
+		$info_taxonomy = get_taxonomy($taxonomy);
+		wp_dropdown_categories(array(
+			'show_option_all' => __("Show All {$info_taxonomy->label}"),
+			'taxonomy'        => $taxonomy,
+			'name'            => $taxonomy,
+			'orderby'         => 'name',
+			'selected'        => $selected,
+			'show_count'      => true,
+			'hide_empty'      => true,
+		));
+	};
+}
+    /**
+     * Filter posts by taxonomy in admin
+     * @author  Mike Hemberger
+     * @link http://thestizmedia.com/custom-post-type-filter-admin-custom-taxonomy/
+     */
+    add_filter('parse_query', 'tsm_convert_id_to_term_in_query_videos');
+    function tsm_convert_id_to_term_in_query_videos($query) {
+            global $pagenow;
+            $post_type = 'baa_videos'; // change to your post type
+            $taxonomy  = 'video_type'; // change to your taxonomy
+            $q_vars    = &$query->query_vars;
+            if ( $pagenow == 'edit.php' && isset($q_vars['post_type']) && $q_vars['post_type'] == $post_type && isset($q_vars[$taxonomy]) && is_numeric($q_vars[$taxonomy]) && $q_vars[$taxonomy] != 0 ) {
+                    $term = get_term_by('id', $q_vars[$taxonomy], $taxonomy);
+                    $q_vars[$taxonomy] = $term->slug;
+            }
+    } 
+}
 
 
 
@@ -594,16 +698,16 @@ function printElement($post){
    
     if($attachments->exist()){
         //VIDEO INTERNO
-        echo '<div class="swiper-slide video-player-interno">';
-        echo '<video class="cover-video" controls>';
+        //echo '<div class="swiper-slide video-player-interno">';
+        echo '<video class="cover-video" autoplay muted loop>';
         while($attachments->get()){
             $extension = explode('.', $attachments->url());
             $ext = $extension[count($extension)-1];
             echo '<source src="'.$attachments->url().'" type="video/'.$ext.'">';
         }               
         echo '</video>';
-        echo '<div class="slide-description"><img src="'.$path_img.'video_play_black.png" /><h1 class="hidden-xs hidden-sm">'.$post->post_title.'</h1><p class="hidden-xs hidden-sm">'.$post->post_content.'</p></div>';
-        echo '</div>';
+        //echo '<div class="slide-description"><img src="'.$path_img.'video_play_black.png" /><h1 class="hidden-xs hidden-sm">'.$post->post_title.'</h1><p class="hidden-xs hidden-sm">'.$post->post_content.'</p></div>';
+        //echo '</div>';
     }      
     else if( wp_get_attachment_url( get_post_thumbnail_id($post->ID))!= false){
         //è un'immagine
@@ -614,12 +718,37 @@ function printElement($post){
         echo '</div>';
     }    
     else{
+        
         //è un video di youtube           
-        $embed_video = str_replace('watch?v=', 'embed/', get_post_meta($post->ID, 'video', true));  
-        echo '<div class="swiper-slide video-player">';
-        echo '<div class="cover-video" style="width:100%; height:100%; position:absolute; z-index:9999; cursor:pointer"></div>';
-        echo '<iframe width="100%" height="100%" src="'.$embed_video.'" frameborder="0" allowfullscreen></iframe>';
-        echo '</div>';
+        
+        //$embed_video = str_replace('watch?v=', 'embed/', get_post_meta($post->ID, 'video', true)); 
+        $embed_video = explode('watch?v=', get_post_meta($post->ID, 'video', true));
+        $idVideo = $embed_video[count($embed_video)-1];       
+    ?>    
+        
+      
+        <div id="video"></div>
+
+        <script>
+           
+            $('#video').YTPlayer({
+
+               fitToBackground: true,
+
+               videoId: '<?php echo $idVideo ?>'
+
+            });            
+
+        </script>
+        
+        
+        
+        
+    
+        
+
+<?php
+        
     }
 }
 
@@ -848,6 +977,79 @@ function my_ajax_callback(){
         echo 'miao';
     }
     
+}
+
+
+function printFooter(){
+    $path_img = esc_url( get_template_directory_uri() ).'/images/';
+    
+?>
+     </div>
+<!-- end main content -->
+
+<!-- Booking form -->
+<div id="booking-form" class="black-container">
+    <div class="col-xs-12 col-md-6">
+        <h2>Contact for bookings</h2><span class="close-form">X</span>
+        <div class="form-container">
+            <?php echo do_shortcode('[contact-form-7 id="109" title="booking-form"]') ?>
+        </div>
+    </div>
+</div>
+<!-- end Booking form -->
+
+<!-- Newsletter -->
+<div id="newsletter-form" class="black-container">
+    <div class="col-xs-12 col-md-6">
+        <h2>Subscribe to the Newsletter</h2><span class="close-form">X</span>
+        <div class="form-container">
+        <?php 
+            $widgetNL = new WYSIJA_NL_Widget(true);
+            echo $widgetNL->widget(array('form' => 2, 'form_type' => 'php'));
+        ?>
+        </div>
+    </div>
+</div>
+<!-- end Newsletter -->
+
+<footer class="site-footer container-fluid" role="contentinfo">
+    <div class="row">
+        <div class="copyright col-xs-12 col-md-3">
+            <p style="font-size:0.9em">
+                P. IVA 04275020271<br>                
+                B&A - Bed and Art è stato registrato il 7/07/2014 presso il ministero dello Sviluppo Economico.<br>
+                <a href="mailto:info@bedandart.it">info@bedandart.it</a><br>
+                Venezia, San Marco, 30124. <br>
+                Copyright &copy; 2015 All right reserved
+            </p>
+        </div>
+        <div class="field col-xs-12 col-md-3">
+            <h3 class="booking-link">BOOKING NOW</h3>
+        </div>
+        <div class="field col-xs-12 col-md-3">
+            <h3 class="newsletter-link">NEWSLETTER</h3>
+        </div>
+        <div class="field col-xs-12 col-md-3">
+            <div class="social-links-container">
+                <ul class="social-link">
+                    <li>
+                        <a target="_blank" href="https://www.youtube.com/channel/UCNOwuPM7QAtmUxSdNOro8dA"><img src="<?php echo $path_img ?>social_youtube.png" alt="youtube" /></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/bedandartvenice"><img src="<?php echo $path_img ?>social_facebook.png" alt="facebook" /></a>
+                    </li>               
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/bedandart.it/"><img src="<?php echo $path_img ?>social_instagram.png" alt="instagram"/></a>
+                    </li>               
+                </ul>
+                <a href="#header-top" class="arrow-up"></a>
+            </div>
+        </div>
+    </div>
+    
+		
+</footer><!-- .site-footer -->   
+<?php
 }
 
 ?>

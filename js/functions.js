@@ -14,19 +14,21 @@ $( document ).ready(function() {
    //END MENU
    
    //SWIPER
-    resizeSwiperContainer();
+    //resizeSwiperContainer();
     $(window).resize(resizeItemMenu);
     //initialize swiper when document ready  
     var mySwiper = new Swiper ('.swiper-container', {
       // Optional parameters
-      initialSlide : 1,
+      initialSlide : 0,
       direction: 'horizontal',
       loop: true,
       nextButton : '.swiper-button-next',
       prevButton : '.swiper-button-prev',
-      keyboardControl : true     
+      keyboardControl : true,
+      slidesPerView: 0
     }) ;       
     
+  /* 
     $('.video-player').click(function(ev){        
         $('.discover-more').hide();
         $(this).find('.cover-video').hide();        
@@ -40,7 +42,7 @@ $( document ).ready(function() {
         $(this).find('.slide-description').hide();
         $(this).find('video').get(0).play();
     });    
-    
+  */
     $('.swiper-button-next, .swiper-button-prev').click(function(){
         $('.discover-more').show();
     });
@@ -64,11 +66,13 @@ $( document ).ready(function() {
     });
     
     //hover in about
-    $('li.persona').hover(
-        function(event){           
+    $('li.persona').hover(            
+        function(event){     
+            $('.cover-image-persona').css('height', $(this).height()+'px');
             $(this).find('.cover-image-persona').stop().slideDown(); 
         },
-        function(event){            
+        function(event){     
+            $('.cover-image-persona').css('height', $(this).height()+'px');
             $(this).find('.cover-image-persona').stop().slideUp(); 
     });
     
@@ -99,7 +103,64 @@ $( document ).ready(function() {
     });
     
     
+    //BOOKS galleria VIDEO
+    resizeBgVideo();
+    resizeVideoInBooks();
+    $(window).resize(function(){
+        resizeBgVideo();
+        resizeVideoInBooks();
+    });
+    
+    if($('ul.videos-container').size() > 0){
+        $('ul.videos-container li.video-thumb .bg-video').click(function(){            
+            $('ul.videos-container li.iframe-container').hide();
+            var height = ($(this).parent('.video-thumb').next().height())/2;
+            $(this).parent('.video-thumb').next().css('margin-top', '-'+height+'px'); 
+            $(this).parent('.video-thumb').next().show('slow', 'swing', function(){                
+              
+            });
+            //$('body').css('overflow', 'hidden');
+        }); 
+        
+        
+        $('.close-container').click(function(){
+           $('.iframe-container').hide('slow');
+           var videoSRC = $(this).siblings('iframe').attr('src');
+           //trick per fermare il video di youtube
+           $(this).siblings('iframe').attr('src', '');
+           $(this).siblings('iframe').attr('src', videoSRC);
+          
+        });
+    }
+    
 });
+
+function resizeBgVideo(){
+    if($('ul.videos-container').size() > 0){
+        $('ul.videos-container .bg-video').each(function(){            
+            var newHeight = $(this).width() / 1.78;
+            $(this).height(newHeight);
+            var $play = $(this).find('.play');
+            var marginTop = (newHeight - $play.height()) / 2;           
+            $play.css('margin-top', marginTop+'px');
+        });
+    }
+}
+
+function resizeVideoInBooks(){
+    if($('ul.videos-container').size() > 0){
+        $('ul.videos-container li iframe').each(function(){
+            var newHeight = 0;
+            if($('ul.videos-container').width() < 960){
+                newHeight = $('ul.videos-container').width() / 1.78;
+            }
+            else{
+                newHeight = 960/2;
+            }
+            $(this).height(newHeight);
+        });
+    }
+}
 
 function resizeCoverLinkBlogPost(){
     $('#inside.blog-list .blog-post').each(function(){

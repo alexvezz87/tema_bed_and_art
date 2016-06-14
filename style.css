@@ -21,9 +21,21 @@ html, body {
     background:#FEFEFE;
 }
 
+strong {
+    font-weight: 500;
+}
+
 .nopadding {padding-left:0px !important; padding-right: 0px !important}
 
-header {height: 50px;}
+body #video {margin-top:50px;}
+
+header {
+    height: 50px;
+    position:absolute;
+    width:100%;
+    z-index:9;
+    background:#fff;
+}
 header .logo-container {}
 header .logo {
     float:left;
@@ -41,20 +53,24 @@ header #hamburger-menu {
 
 #hamburger-menu.opened {background: url('images/menu-close.png') no-repeat center center ;}
 
+#player{
+    margin-top:50px;
+}
+
 /* MENU */
 #menu-comparsa {
     width:100%; 
     position: absolute; 
     z-index:9999;
     background:#000;
-    display:none;
+    display:none;   
+    margin-top:50px;
 }
 
 #menu-comparsa ul {
     list-style: none;
     background:#000;
-    color:#fff;
-   
+    color:#fff;   
 }
 
 #menu-comparsa ul li {
@@ -100,8 +116,8 @@ header #hamburger-menu {
 
 /*SWIPER */
 .swiper-container {
-    width: 100%;
-    
+    height: 100vh;
+    width:100%;    
 }      
 
 .swiper-slide-image {
@@ -185,6 +201,34 @@ header #hamburger-menu {
     display: none;    
 }
 
+
+.cover-video{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);   
+}
+
+.video-player{
+    position: fixed;
+    z-index: -99999;
+    -webkit-user-select: none;
+    user-select: none;
+    width: 100%;
+    height: 100%;
+    -ms-transform: scale(2,3);
+    -webkit-transform: scale(2,3);
+    transform: scale(2, 3);
+}
+
 /* end SWIPER */
 
 /* SWIPER inside */
@@ -201,26 +245,28 @@ header #hamburger-menu {
     background:#f8f8f8;
 }
 
-#inside h2{    
+#inside h2, .partners h2{    
     font-size:30px;
     font-weight: 300;
     margin-bottom:25px;
+    margin-top: 25px;
 }
 
 #inside p {
-    max-width: 670px;
+    
     color:#343434;
     font-size:20px;
     line-height: 22px; 
     font-weight: 300;
     margin-bottom: 75px;
 }
+
 .red-1{
     color:#a81a1b;
 }
 
 .red-2{
-    color:#ba326c;
+    color:#a81a1b;
 }
 
 .background-logo {
@@ -291,6 +337,7 @@ footer .row > div {
 }
 
 .booking-link, .newsletter-link {cursor: pointer}
+.booking-link {display:none}
 
 footer .arrow-up {
     width:22px;
@@ -376,6 +423,8 @@ div.wpcf7-response-output{
 ul.persone {list-style: none;}
 #map {height: 450px;}
 
+
+
 /* end ABOUT */
 
 /* BOOK */
@@ -393,12 +442,12 @@ ul.persone {list-style: none;}
     display: block;
 }
 
-#inside.book .books-container .book-description h3 {
+#inside.book .books-container .book-description h3, .video-thumb h3 {
     font-weight: 300;
     color:#a81a1b;
     font-size:30px;        
 }
-#inside.book .books-container .book-description p{
+#inside.book .books-container .book-description p, .video-thumb p{
     font-weight: 300;
     font-size:18px;
     line-height: 24px;
@@ -424,6 +473,71 @@ ul.persone {list-style: none;}
     text-decoration: none;
 }
 
+.video {
+    padding-top:50px;
+    padding-bottom:50px;
+}
+
+.video .video-thumb{
+    margin-bottom:20px;
+}
+
+.video .videos-container{
+    list-style: none;
+}
+
+ul.videos-container div.bg-video{
+    background-size:cover !important;
+    background-position: center center !important;    
+    text-align: center;
+    cursor: pointer;
+}
+
+ul.videos-container div.bg-video .play{    
+    height: 70px;
+    width: 70px;
+    background:url('images/video_play_white.png') center center no-repeat;
+    background-size:contain;
+    margin:auto;
+}
+
+ul.videos-container div.bg-video:hover > .play{
+    background:url('images/ico_play_2.png') center center no-repeat;
+    background-size:contain;
+}
+
+.video .videos-container .iframe-container{
+    display: none;
+    left:0;
+    position: fixed;    
+    z-index:999999;
+    top:50%; 
+}
+
+.row2 {
+    max-width:960px;
+    margin:auto;
+    -webkit-box-shadow: 0 10px 6px -6px #777;
+    -moz-box-shadow: 0 10px 6px -6px #777;
+    box-shadow: 0 10px 6px -6px #777;
+    padding:10px;    
+    padding-bottom:20px;
+    background: #000;
+    border-radius: 10px;
+
+}
+
+.row2 .close-container{
+    width:40px;
+    height: 40px;
+    float:right;
+    background:url('images/menu-close-2.png') no-repeat center center;
+    background-size: contain;
+    margin-top: -30px;
+    margin-right: -25px;
+    cursor: pointer;
+}
+
 /* end BOOK */
 
 /* SUPPORT */
@@ -444,6 +558,54 @@ ul.persone {list-style: none;}
     
 }
 
+#main-container .support .row.partners {
+    max-width:9999999px
+}
+
+.support .row.partners .half-row{
+    padding-top:0px
+}
+
+.support .row.partners .half-row .red-1{
+    max-width:740px;
+    margin:auto;
+}
+
+.support .area-download{
+    margin-top:45px;
+    margin-bottom: 30px;
+}
+
+.support .area-download .obj-download{
+    display:block;
+    width:150px;
+    height: 125px;
+    padding-top:90px;
+    background:url('images/download-file.png') no-repeat center top;
+    background-size: 77px auto;
+    float:left;
+    margin-left:40px;
+    text-align: center;
+}
+
+.clear{
+    clear:both;
+}
+
+li.collab a{
+    display:block;
+    width:75%;
+    height: 75%;
+    background-size: contain !important;
+    margin:auto;
+}
+
+.title-collab{
+    padding-top:30px;
+    padding-bottom: 25px;
+    background: #f8f8f8;
+    margin-bottom:25px !important;
+}
 /* end SUPPORT */
 
 
@@ -703,11 +865,25 @@ ul.persone {list-style: none;}
         max-width:273px;
     }
 
+    
+    #inside.blog-list .blog-post .excerpt p {        
+        max-width: 300px;
+        margin: auto;
+        margin-top: 20px;
+    }
 /** end BLOG **/
+
+
+#tubular-container{
+    position:absolute !important;
+    margin-top:50px;
+}
 
 
 /** TABLET **/
 @media (min-width: 768px) {
+    
+    body #video {margin-top:100px;}
        
     header {height: 100px;}
     header .logo-container {padding-top:12px}
@@ -719,7 +895,13 @@ ul.persone {list-style: none;}
         height:67px; 
     }
     
-    #inside h2{ 
+   
+    
+    #menu-comparsa {
+        margin-top:100px;
+    }
+    
+    #inside h2, .partners h2{ 
         font-size:48px;
     }
     
@@ -729,7 +911,12 @@ ul.persone {list-style: none;}
     
     #inside p {
         font-size:30px;
-        line-height: 32px; 
+        line-height: 32px;         
+    }
+    
+    #inside.project p{
+        font-size:25px;
+        line-height: 27px;
     }
     
     footer h3 {font-size: 35px}
@@ -740,6 +927,10 @@ ul.persone {list-style: none;}
     
     .black-container .form-field {
         padding-left:50px;
+    }
+    
+    #menu-comparsa {
+      
     }
     
     /* Booking Form */
@@ -822,11 +1013,39 @@ ul.persone {list-style: none;}
         bottom:0;
         width:100%;    
     }
+    
+    .video-player{
+        position: fixed;
+        z-index: -99999;
+        -webkit-user-select: none;
+        user-select: none;
+        width: 100%;
+        height: 100%;
+        
+        -ms-transform: scale(1);
+        -webkit-transform: scale(1);
+        transform: scale(1, 1);
+    }
+    
+    #tubular-container{
+        margin-top:100px;
+    }
+    
+    
+    #inside.blog-list {
+        padding-top:100px;
+    }
+    
+    
 }
 /** end TABLET **/
 
 /** DEKSTOP **/
 @media (min-width: 992px) {
+    
+    #inside .half-row p.testo-ridotto{
+        font-size:25px; line-height: 27px;
+    }
     
     .nopadding-desktop {padding:0}
     
@@ -859,18 +1078,9 @@ ul.persone {list-style: none;}
         padding-top:30px;
     }
     
-    #inside.blog-list {
-        padding-top:20px;
-    }
-    
-    
-    
-    #inside .title-page {
-        margin-top:90px;
-    }
-
-   .half-row{width:50%; padding-top:90px}
-   .half-row.black-container {padding-bottom:45px}
+     
+   .half-row{width:50%; padding-top:105px}
+   .half-row.black-container {padding-bottom:60px}
    .half-row.black-container .contact {margin-top:-45px}
    #inside .half-row p {margin-bottom:0}
    
@@ -908,6 +1118,27 @@ ul.persone {list-style: none;}
         min-width:450px;
         margin:auto;
     }
+    
+    #inside p {        
+        max-width:670px;
+    }
+    
+    #inside h2, .partners h2{
+        margin-top: 0px;
+    }
+    
+    li.persona{
+        width:20%;
+    }
+    
+    #inside.blog-list .not-first-post .blog-post .excerpt p {        
+        max-width: 450px;      
+    }
+    
+    #inside.blog-list .first-post .blog-post .excerpt p {        
+        max-width: 900px;      
+    }
+    
 }
 /** end DESKTOP **/
 

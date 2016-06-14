@@ -130,7 +130,7 @@ get_header(); ?>
                
             </div>     
             
-            <div class="half-row">
+            <div class="half-row" style="padding-top:10px">
                 <div class="col-xs-12 ">
                     <h2 class="red-2">Artist</h2>
                     <p><?php echo get_post_meta(get_the_ID(), 'artist', true); ?></p>
@@ -140,12 +140,12 @@ get_header(); ?>
                 <div class="col-xs-12 contact col-dx">
                     <h2>Call for artist residence or present your portfolio </h2>
                     <div class="form-container">
-                        <?php echo do_shortcode('[contact-form-7 id="142" title="support-form"]') ?>
+                        <?php echo do_shortcode('[contact-form-7 id="68" title="support-form"]') ?>
                     </div>
                 </div>                
             </div>  
             
-            <ul class="persone nopadding">
+            <ul class="persone nopadding" style="clear:both; padding-top:10px">
             <?php foreach($artists as $artist){ ?>
                 <li class="persona col-md-3 col-xs-6 nopadding">
                     <a href="<?php echo $artist['page'] ?>">
