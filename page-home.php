@@ -50,7 +50,7 @@ $path_img = esc_url( get_template_directory_uri() ).'/images/';
 
     
 
-  <?php printFooter() ?>
+  <?php get_footer(); ?>
 
 
 

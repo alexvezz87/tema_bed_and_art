@@ -880,6 +880,23 @@ li.collab a{
 }
 
 
+/** INFO **/
+
+#inside.info{
+    padding-top:50px;
+}
+
+#inside.info p{
+    max-width:100% !important;
+}
+
+#inside.info h4{
+    font-size:30px;
+}
+
+/** end INFO **/
+
+
 /** TABLET **/
 @media (min-width: 768px) {
     
@@ -914,7 +931,7 @@ li.collab a{
         line-height: 32px;         
     }
     
-    #inside.project p{
+    #inside.project p, #inside.info p{
         font-size:25px;
         line-height: 27px;
     }
@@ -1036,6 +1053,13 @@ li.collab a{
         padding-top:100px;
     }
     
+    /** INFO **/
+
+    #inside.info{
+        padding-top:100px;
+    }
+
+    /** end INFO **/
     
 }
 /** end TABLET **/
