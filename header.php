@@ -54,6 +54,12 @@ $menu = wp_get_nav_menu_items( 'primary');
         
         <link rel="icon" href="<?php echo $path_img ?>favicon.png" type="image/png" />
         
+        <script type="text/javascript">
+            $(window).load(function() {
+                    $(".loader").fadeOut("slow");
+            })
+        </script>
+        
 	<?php wp_head(); ?>
 </head>
 <body>

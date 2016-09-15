@@ -12,16 +12,44 @@ $path_img = esc_url( get_template_directory_uri() ).'/images/';
 
 get_header(); ?>
 
- 
+<div class="loader"></div> 
 <div class="fill nopadding">       
     <div class="col-xs-12 nopadding">
      
 
  <?php
-    
+        $numPost = 5;
+        
+        $args2 = array(
+            'posts_per_page'   => 1,
+            'offset'           => 0,
+            'category'         => '',
+            'category_name'    => 'evidenza',
+            'orderby'          => 'date',
+            'order'            => 'DESC',
+            'include'          => '',
+            'exclude'          => '',
+            'meta_key'         => '',
+            'meta_value'       => '',
+            'post_type'        => 'post',
+            'post_mime_type'   => '',
+            'post_parent'      => '',
+            'author'	   => '',
+            'post_status'      => 'publish',
+            'suppress_filters' => true 
+        );
+        
+        $evidenza = get_posts($args2);
+        $ev = null;
+        if(count($evidenza) > 0){
+            $ev = $evidenza[0];
+            $numPost = 4;
+        }
+        
+         
         //Ottengo i valori relativi ai campi di descrizione
         $args = array(
-            'posts_per_page'   => 5,
+            'posts_per_page'   => $numPost,
             'offset'           => 0,
             'category'         => '',
             'category_name'    => '',
@@ -43,16 +71,15 @@ get_header(); ?>
         
        
         
-        
     ?>
         <div id="inside" class="blog-list"> 
             <div class="background-logo"></div>
-        <?php printPreviewBlogPosts($fields)   ; ?>
+        <?php printPreviewBlogPosts($fields, $ev); ?>
             
-        <?php if(count($fields) > 4) { ?>
+        <?php if(count($fields) > ($numPost-1)) { ?>
             <div id="more-results"></div>
             <div class="more-results-search">
-                <input type="hidden" name="number-current-posts" value="5" autocomplete="off" />
+                <input type="hidden" name="number-current-posts" value="<?php echo $numPost ?>" autocomplete="off" />
                 <a id="more-post">Show more</a> 
             </div>            
         <?php } ?>    
@@ -71,6 +98,12 @@ get_header(); ?>
                         data: {
                             action : 'my_ajax',
                             offset: offset
+                                <?php
+                                if($ev != null){
+                                    echo ', ';
+                                    echo 'evidenza: '.$ev->ID;
+                                }
+                            ?>                            
                         },                        
                         success: function(data){                           
                             printMorePosts(data);   

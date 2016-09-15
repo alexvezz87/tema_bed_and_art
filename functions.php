@@ -869,6 +869,8 @@ function getTextBetweenTags($tag, $html, $strict=0){
 }
 
 function printPreviewBlogPost($item){
+   
+   
 ?>    
 
     <div class="blog-post">
@@ -891,8 +893,34 @@ function printPreviewBlogPost($item){
 <?php
 }
 
-function printPreviewBlogPosts($fields){
+function printPreviewBlogPosts($fields, $evidenza){
  
+    //controllo l'articolo in evidenza
+    $firstElement = $evidenza;
+    /**
+    foreach($fields as $item){
+        $categories = get_the_category($item->ID);
+        foreach($categories as $category){
+            if($category->name == 'evidenza'){
+                $firstElement = $item;
+            }
+        }
+    }
+    **/
+    if($firstElement != null){
+        $newArray = array();
+        //metto l'elemento in evidenza in testa
+        array_push($newArray, $firstElement);
+        //aggiungo gli altri saltando quello in evidenza
+        foreach($fields as $item){
+            if($item->ID != $firstElement->ID){
+                array_push($newArray, $item);
+            }
+        }
+        
+        $fields = $newArray;
+    }
+    
     $count_post = 0;   
     foreach($fields as $item){
         if($count_post == 0){
@@ -934,6 +962,10 @@ add_action( 'wp_ajax_nopriv_my_ajax', 'my_ajax_callback' );
 function my_ajax_callback(){    
     
     if(isset($_POST['offset'])){
+        $evidenza = null;
+        if(isset($_POST['evidenza'])){
+            $evidenza = $_POST['evidenza'];
+        }
         //faccio una call con offset indicato
         $args = array(
             'posts_per_page'   => 4,
@@ -957,14 +989,22 @@ function my_ajax_callback(){
        $fields = get_posts($args); 
        $result = array();
        foreach($fields as $item){
-           $temp = array();
-           $temp['title'] = $item->post_title;
-           $temp['subtitle'] = get_the_author_meta('display_name', $item->post_author ).' - '.get_the_date('', $item->ID);
-           $temp['image'] = wp_get_attachment_url( get_post_thumbnail_id($item->ID));
-           $temp['excerpt'] = $item->post_excerpt;
-           $temp['link'] = $item->guid;
-           
-           array_push($result, $temp);
+            $temp = array();
+            $temp['title'] = $item->post_title;
+            $temp['subtitle'] = get_the_author_meta('display_name', $item->post_author ).' - '.get_the_date('', $item->ID);
+            $temp['image'] = wp_get_attachment_url( get_post_thumbnail_id($item->ID));
+            $temp['excerpt'] = $item->post_excerpt;
+            $temp['link'] = $item->guid;
+
+            if($evidenza != null){
+                if($evidenza != $item->ID){
+                    array_push($result, $temp);
+                }
+            }
+            else{
+                array_push($result, $temp);
+            }
+            
            
        }
        
