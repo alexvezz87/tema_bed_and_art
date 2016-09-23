@@ -893,7 +893,7 @@ function printPreviewBlogPost($item){
 <?php
 }
 
-function printPreviewBlogPosts($fields, $evidenza){
+function printPreviewBlogPosts($fields, $evidenza, $numPost){
  
     //controllo l'articolo in evidenza
     $firstElement = $evidenza;
@@ -908,14 +908,23 @@ function printPreviewBlogPosts($fields, $evidenza){
     }
     **/
     if($firstElement != null){
+        
+       
+        
         $newArray = array();
         //metto l'elemento in evidenza in testa
         array_push($newArray, $firstElement);
         //aggiungo gli altri saltando quello in evidenza
-        foreach($fields as $item){
+        $counter = 0;
+        
+        foreach($fields as $item){       
+            if($counter == $numPost){
+                break;
+            }
             if($item->ID != $firstElement->ID){
                 array_push($newArray, $item);
-            }
+            } 
+            $counter++;
         }
         
         $fields = $newArray;
@@ -975,7 +984,7 @@ function my_ajax_callback(){
             'orderby'          => 'date',
             'order'            => 'DESC',
             'include'          => '',
-            'exclude'          => '',
+            'exclude'          => array($evidenza),
             'meta_key'         => '',
             'meta_value'       => '',
             'post_type'        => 'post',
@@ -996,16 +1005,8 @@ function my_ajax_callback(){
             $temp['excerpt'] = $item->post_excerpt;
             $temp['link'] = $item->guid;
 
-            if($evidenza != null){
-                if($evidenza != $item->ID){
-                    array_push($result, $temp);
-                }
-            }
-            else{
-                array_push($result, $temp);
-            }
+            array_push($result, $temp);
             
-           
        }
        
        
@@ -1014,7 +1015,7 @@ function my_ajax_callback(){
         
     }
     else{
-        echo 'miao';
+        
     }
     
 }
@@ -1079,7 +1080,7 @@ function printFooter(){
                         <a target="_blank" href="https://www.facebook.com/bedandartvenice"><img src="<?php echo $path_img ?>social_facebook.png" alt="facebook" /></a>
                     </li>               
                     <li>
-                        <a target="_blank" href="https://www.instagram.com/bedandart.it/"><img src="<?php echo $path_img ?>social_instagram.png" alt="instagram"/></a>
+                        <a target="_blank" href="https://www.instagram.com/bedandart/"><img src="<?php echo $path_img ?>social_instagram.png" alt="instagram"/></a>
                     </li>               
                 </ul>
                 <a href="#header-top" class="arrow-up"></a>

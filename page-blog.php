@@ -19,7 +19,7 @@ get_header(); ?>
 
  <?php
         $numPost = 5;
-        
+              
         $args2 = array(
             'posts_per_page'   => 1,
             'offset'           => 0,
@@ -43,13 +43,12 @@ get_header(); ?>
         $ev = null;
         if(count($evidenza) > 0){
             $ev = $evidenza[0];
-            $numPost = 4;
+            
         }
         
-         
         //Ottengo i valori relativi ai campi di descrizione
         $args = array(
-            'posts_per_page'   => $numPost,
+            'posts_per_page'   => 5,
             'offset'           => 0,
             'category'         => '',
             'category_name'    => '',
@@ -69,14 +68,31 @@ get_header(); ?>
         
         $fields = get_posts($args); 
         
-       
+         //ciclo perventivo per vedere se il primo elemento sta nei primi 5 post
+        
+        if($ev != null){
+            $trovato = false;
+            foreach($fields as $item){            
+                if($item->ID == $ev->ID){
+                    $trovato = true;
+                }            
+            }
+
+            if($trovato == false){
+                $numPost = 4;
+            }
+            else{
+                $numPost = 5;
+            }
+        }
+        
         
     ?>
         <div id="inside" class="blog-list"> 
             <div class="background-logo"></div>
-        <?php printPreviewBlogPosts($fields, $ev); ?>
+        <?php printPreviewBlogPosts($fields, $ev, $numPost); ?>
             
-        <?php if(count($fields) > ($numPost-1)) { ?>
+        <?php if(count($fields) >= ($numPost)) { ?>
             <div id="more-results"></div>
             <div class="more-results-search">
                 <input type="hidden" name="number-current-posts" value="<?php echo $numPost ?>" autocomplete="off" />
