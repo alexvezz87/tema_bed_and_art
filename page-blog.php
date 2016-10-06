@@ -14,7 +14,7 @@ get_header(); ?>
 
 <div class="loader"></div> 
 <div class="fill nopadding">       
-    <div class="col-xs-12 nopadding">
+    <div class="col-xs-12 nopadding" style=" background: rgb(248, 248, 248);">
      
 
  <?php
@@ -69,7 +69,7 @@ get_header(); ?>
         $fields = get_posts($args); 
         
          //ciclo perventivo per vedere se il primo elemento sta nei primi 5 post
-        
+        $offset = 5;
         if($ev != null){
             $trovato = false;
             foreach($fields as $item){            
@@ -80,24 +80,37 @@ get_header(); ?>
 
             if($trovato == false){
                 $numPost = 4;
+                $offset = 4;
             }
             else{
                 $numPost = 5;
+                $offset = 4;
             }
         }
         
         
     ?>
-        <div id="inside" class="blog-list"> 
-            <div class="background-logo"></div>
-        <?php printPreviewBlogPosts($fields, $ev, $numPost); ?>
+        <div id="inside" class="blog-list row"> 
+            <div class="background-logo visible-xs visible-sm" ></div>
+        <?php printPreviewBlogPosts($fields, $ev, $numPost, $offset); ?>
+            
+        <?php
+            //imposto la variabile del layout a 3 colonne se sono presenti i video
+            $layout3posts = "";
+            $layout3video = "col-xs-12 col-sm-4"
+        
+        ?>
+            
             
         <?php if(count($fields) >= ($numPost)) { ?>
-            <div id="more-results"></div>
-            <div class="more-results-search">
-                <input type="hidden" name="number-current-posts" value="<?php echo $numPost ?>" autocomplete="off" />
+            <!--
+            <div class="clear"></div>
+            <div id="more-results" class="<?php echo $layout3posts ?>"></div>
+            <div class="more-results-search <?php echo $layout3posts ?>">
+                <input type="hidden" name="number-current-posts" value="<?php echo $offset ?>" autocomplete="off" />
                 <a id="more-post">Show more</a> 
-            </div>            
+            </div>    
+            -->
         <?php } ?>    
         </div>
         <script type="text/javascript">
@@ -162,7 +175,7 @@ get_header(); ?>
                     html+='resizeCoverLinkBlogPost()';
                     html+='</script';
                     html+='>';
-                    
+                    html+='<div class="clear"></div>';
                     jQuery('#more-results').append(html);
                     jQuery('.new-result').fadeIn('slow');
                 });

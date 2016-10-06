@@ -103,6 +103,24 @@ $( document ).ready(function() {
     });
     
     
+    //sistemo il logo a destra nella pagina blog    
+    if($('.bg-logo-left').size() > 0){
+        var hTot = $('.first-post .blog-post').height();
+        
+        //var hLogo = $('.bg-logo-left').height();
+        
+        //var padding = (hTot - hLogo) / 2;
+        
+        $('.container-bg-logo').css('height', hTot+'px');
+        $('.container-bg-logo').css('line-height', hTot+'px');
+        
+        //sistemo i video a sinistra
+        var margin = $('.first-post .blog-post .title-container').height();
+        $('.videos-container').css('margin-top', (margin+20)+'px');  
+    }
+    
+    
+    
     //BOOKS galleria VIDEO
     resizeBgVideo();
     resizeVideoInBooks();
@@ -133,6 +151,7 @@ $( document ).ready(function() {
         });
     }
     
+    
 });
 
 function resizeBgVideo(){
@@ -151,8 +170,9 @@ function resizeVideoInBooks(){
     if($('ul.videos-container').size() > 0){
         $('ul.videos-container li iframe').each(function(){
             var newHeight = 0;
-            if($('ul.videos-container').width() < 960){
-                newHeight = $('ul.videos-container').width() / 1.78;
+            if($('ul.videos-container').width() < 960){               
+                //newHeight = $('ul.videos-container').width() / 1.78;
+                newHeight = 960/2;
             }
             else{
                 newHeight = 960/2;
@@ -167,7 +187,7 @@ function resizeCoverLinkBlogPost(){
         var w = $(this).find('.image-post').width();
         var h = w * 1.5;
         $(this).find('.image-post').css('#height', h+'px');
-        $(this).find('.image').css('width', w+'px');
+        //$(this).find('.image').css('width', w+'px');
         $(this).find('.image').css('height', h+'px');            
         $(this).find('.link').css('width', w+'px');
         $(this).find('.link').css('height', h+'px');
@@ -177,7 +197,7 @@ function resizeCoverLinkBlogPost(){
          $('#inside.blog-list .blog-post').each(function(){
             var w = $(this).find('.image-post').width();
             var h = w * 1.5;       
-            $(this).find('.image').css('width', w+'px');
+            //$(this).find('.image').css('width', w+'px');
             $(this).find('.image').css('height', h+'px');            
             $(this).find('.link').css('width', w+'px');
             $(this).find('.link').css('height', h+'px');

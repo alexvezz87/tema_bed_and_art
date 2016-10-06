@@ -874,8 +874,10 @@ function printPreviewBlogPost($item){
 ?>    
 
     <div class="blog-post">
-        <h2 class="red-1"><?php echo $item->post_title ?></h2>
-        <h4><?php echo get_the_author_meta('display_name', $item->post_author ); ?> - <?php echo get_the_date('', $item->ID) ?></h4>
+        <div class="title-container">
+            <h2 class="red-1"><?php echo $item->post_title ?></h2>
+            <h4><?php echo get_the_author_meta('display_name', $item->post_author ); ?> - <?php echo get_the_date('', $item->ID) ?></h4>           
+        </div>
         <div class="image">
             <a href="<?php echo $item->guid ?>">
                 <div class="link">
@@ -893,7 +895,7 @@ function printPreviewBlogPost($item){
 <?php
 }
 
-function printPreviewBlogPosts($fields, $evidenza, $numPost){
+function printPreviewBlogPosts($fields, $evidenza, $numPost, $offset){
  
     //controllo l'articolo in evidenza
     $firstElement = $evidenza;
@@ -929,29 +931,182 @@ function printPreviewBlogPosts($fields, $evidenza, $numPost){
         
         $fields = $newArray;
     }
-    
+        
+    //prendo i video
+    //VIDEO
+    //Ottengo i valori relativi ai campi di descrizione
+    $args = array(
+        'post_type' => 'baa_videos',
+        'posts_per_page' => -1,
+        'tax_query' => array(
+            array(
+                    'taxonomy' => 'video_type',
+                    'field' => 'slug',
+                    'terms' => 'blog-detail'
+            )
+        )        
+    );
+    $fieldsVideo = get_posts($args); 
+
+    $videos = array();
+    foreach($fieldsVideo as $field){
+        $video = array();
+        $video['titolo'] = $field->post_title;
+        $video['descrizione'] = $field->post_content;
+        $video['image'] = wp_get_attachment_url( get_post_thumbnail_id($field->ID));  
+        $embed_video = explode('watch?v=', get_post_meta($field->ID, 'video', true));
+        $idVideo = $embed_video[count($embed_video)-1];
+
+        $video['url'] = $idVideo;
+
+
+        array_push($videos, $video);
+    }
+        
+    $path_img = esc_url( get_template_directory_uri() ).'/images/';    
+    $startDivTag = false;
     $count_post = 0;   
     foreach($fields as $item){
         if($count_post == 0){
 ?>
-            <div class="row">
-                <div class="col-xs-12 col-sm-10 col-sm-offset-1 first-post">
+            <div class="row" >                
+                
+                <div class="show-video video hidden-xs hidden-sm col-md-3">                   
+                    <?php if(count($videos) > 0) {?>          
+                        <ul class="videos-container col-xs-12">
+                            <?php foreach($videos as $video) { ?>
+                            <li class="video-thumb blog-layout">
+                                <div class="col-xs-12 bg-video hidden-xs hidden-sm layout-blog" style="background: url('<?php echo $video['image'] ?>')">
+                                    <div class="play"></div>
+                                </div>                               
+                                <div>
+                                    <h3 class="layout-blog"><?php echo $video['titolo'] ?></h3>
+                                    <!--
+                                    <p class="layout-blog">
+                                        <?php echo $video['descrizione'] ?>
+                                    </p>
+                                    -->
+                                </div>     
+                            </li> 
+                            <li class="col-xs-12 no-padding iframe-container hidden-xs hidden-sm">
+                                <div class="row2">
+                                    <div class="close-container"></div>
+                                    <iframe class="col-xs-12" src="https://www.youtube.com/embed/<?php echo $video['url'] ?>?rel=0" frameborder="0" allowfullscreen></iframe>
+                                    <!-- share buttons -->
+                                    <ul class="share-video-overlay" id="share-video-overlay">
+                                        <li class="share-on">
+                                            <span>Share on: </span>
+                                        </li>
+                                        <li class="facebook">
+                                            <a  title ="Share on Facebook"
+                                                href="javascript:;"
+                                                onClick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fyoutube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Facebook Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
+                                                
+                                            </a>
+                                        </li>
+                                        <li class="twitter">
+                                            <a title ="Share on Twitter"
+                                                href="javascript:;"
+                                               onClick="window.open('http://www.twitter.com/share?&text=Check+this+video&amp;url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Twitter Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
+                                                
+                                            </a>
+                                        </li>
+                                        <li class="pinterest">
+                                            <a title ="Share on Pinterest"
+                                                href="javascript:;"
+                                               onClick="window.open('http://www.pinterest.com/pin/create/button/?url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Pinterest Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
+                                                
+                                            </a>
+                                        </li>
+                                        <li class="gplus">
+                                            <a title ="Share on Google+"
+                                                href="javascript:;"
+                                               onClick="window.open('https://plus.google.com/share?url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Google plus Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
+                                                
+                                            </a>
+                                        </li>
+                                        <li class="linkedin">
+                                            <a title ="Share on Linkedin"
+                                                href="javascript:;"
+                                               onClick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Linkedin Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
+                                                                                               
+                                            </a>
+                                        </li>
+                                        <li class="tumblr">
+                                            <a title ="Share Tumblr"
+                                                href="javascript:;"
+                                               onClick="window.open('https://www.tumblr.com/share/link?url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Tumblr Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
+                                                                                          
+                                            </a>
+                                        </li>
+                                        <li class="digg">
+                                            <a title ="Share on Digg"
+                                                href="javascript:;"
+                                               onClick="window.open('http://digg.com/submit?phase=2&url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Digg Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
+                                                                                          
+                                            </a>
+                                        </li>
+                                        <li class="stumbleupon">
+                                            <a title ="Share on StumbleUpon"
+                                                href="javascript:;"
+                                               onClick="window.open('http://www.stumbleupon.com/submit?url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Stumbleupon Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
+                                                                                          
+                                            </a>
+                                        </li>
+                                        <li class="myspace">
+                                            <a title ="Share on MySpace"
+                                                href="javascript:;"
+                                               onClick="window.open('https://myspace.com/post?l=3&u=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'MySpace Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
+                                                                                        
+                                            </a>
+                                        </li>                                                                               
+                                    </ul>
+                                    <!-- end share buttons -->
+                                    <div class="clear"></div>
+                                </div>
+                            </li>
+                            <?php } ?> 
+                            <li class="clear"></li>
+                        </ul>      
+
+                    <?php } ?>      
+                </div>
+                
+                <div class="col-xs-12 col-md-6 first-post">
                     <?php printPreviewBlogPost($item); ?>
                 </div>
+                
+                <div class="hidden-xs hidden-sm col-md-3 container-bg-logo">
+                    <div class="col-xs-12">
+                        <img class="bg-logo-left" src="<?php echo $path_img ?>bg-logo-left.png" style="width:100%;" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                
             </div>
 
 <?php 
         }
         else{
+            
+            if($count_post > 0 && $startDivTag == false){
+?>
+                
+        <div class="container-blog-posts col-xs-12 row" >
+<?php
+                
+                $startDivTag = true;
+            }
+            
             if($count_post % 2 != 0){
                 ?>
                     <div class="row">
                 <?php
             }
 ?>                    
-            <div class="col-xs-12 col-md-6 not-first-post">
-                <?php printPreviewBlogPost($item); ?>
-            </div>                        
+                        <div class="col-xs-12 col-md-6 not-first-post">
+                            <?php printPreviewBlogPost($item); ?>
+                        </div>                        
 <?php
             if($count_post % 2 == 0 || $count_post == (count($fields) - 1)){
                 //chiudo il div se il post è divisibile per due oppure è l'ultimo
@@ -959,9 +1114,40 @@ function printPreviewBlogPosts($fields, $evidenza, $numPost){
                     </div>
                 <?php
             }
+            
+            if($count_post == count($fields) - 1){
+?>
+                    
+                    <div id="more-results"></div>
+                    <div class="more-results-search">
+                        <input type="hidden" name="number-current-posts" value="<?php echo $offset ?>" autocomplete="off" />
+                        <a id="more-post">Show more</a> 
+                    </div>        
+                </div>
+                <div class="show-video video visible-xs visible-sm col-xs-12">                    
+                    <?php if(count($videos) > 0) {?>          
+                        <ul class="videos-container col-xs-12">
+                            <?php foreach($videos as $video) { ?>
+                            <li class="video-thumb">                                
+                                <iframe class="visible-xs visible-sm bg-video col-xs-12" src="https://www.youtube.com/embed/<?php echo $video['url'] ?>?rel=0" frameborder="0" allowfullscreen></iframe>
+                                <div class="col-xs-12" style="margin-top:15px">
+                                    <h3 class="layout-blog"><?php echo $video['titolo'] ?></h3>                                    
+                                    <p class="layout-blog">
+                                        <?php echo $video['descrizione'] ?>
+                                    </p>                                    
+                                </div>     
+                            </li>
+                            <?php } ?>                             
+                        </ul>      
+
+                    <?php } ?>      
+                </div>
+<?php
+            }
         }
         $count_post++;
     }
+ 
             
 }
 
@@ -1058,7 +1244,7 @@ function printFooter(){
         <div class="copyright col-xs-12 col-md-3">
             <p style="font-size:0.9em">
                 P. IVA 04275020271<br>                
-                B&A - Bed and Art è stato registrato il 7/07/2014 presso il ministero dello Sviluppo Economico.<br>
+                B&A - Bed and Art è stato registrato il 7/07/2014 presso il <a target="_blank" href="http://www.uibm.gov.it/index.php/marchi">ministero dello Sviluppo Economico</a>.<br>
                 <a href="mailto:info@bedandart.it">info@bedandart.it</a><br>
                 Venezia, San Marco, 30124. <br>
                 Copyright &copy; 2015 All right reserved
