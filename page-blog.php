@@ -94,24 +94,7 @@ get_header(); ?>
             <div class="background-logo visible-xs visible-sm" ></div>
         <?php printPreviewBlogPosts($fields, $ev, $numPost, $offset); ?>
             
-        <?php
-            //imposto la variabile del layout a 3 colonne se sono presenti i video
-            $layout3posts = "";
-            $layout3video = "col-xs-12 col-sm-4"
         
-        ?>
-            
-            
-        <?php if(count($fields) >= ($numPost)) { ?>
-            <!--
-            <div class="clear"></div>
-            <div id="more-results" class="<?php echo $layout3posts ?>"></div>
-            <div class="more-results-search <?php echo $layout3posts ?>">
-                <input type="hidden" name="number-current-posts" value="<?php echo $offset ?>" autocomplete="off" />
-                <a id="more-post">Show more</a> 
-            </div>    
-            -->
-        <?php } ?>    
         </div>
         <script type="text/javascript">
             jQuery(document).ready(function(){

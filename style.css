@@ -576,6 +576,7 @@ h3.layout-blog{
 
 ul.videos-container div.bg-video.layout-blog{
     margin-bottom:5px;
+    max-height: 167px;
 }
 
 /* end BOOK */

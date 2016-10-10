@@ -105,21 +105,17 @@ $( document ).ready(function() {
     
     //sistemo il logo a destra nella pagina blog    
     if($('.bg-logo-left').size() > 0){
-        var hTot = $('.first-post .blog-post').height();
-        
-        //var hLogo = $('.bg-logo-left').height();
-        
-        //var padding = (hTot - hLogo) / 2;
+        var hTot = $('.first-post .blog-post').height();      
         
         $('.container-bg-logo').css('height', hTot+'px');
-        $('.container-bg-logo').css('line-height', hTot+'px');
-        
+        $('.container-bg-logo').css('line-height', hTot+'px');        
+    }
+    
+    if($('.first-post .blog-post .title-container').size() > 0){
         //sistemo i video a sinistra
         var margin = $('.first-post .blog-post .title-container').height();
         $('.videos-container').css('margin-top', (margin+20)+'px');  
     }
-    
-    
     
     //BOOKS galleria VIDEO
     resizeBgVideo();

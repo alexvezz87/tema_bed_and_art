@@ -974,98 +974,18 @@ function printPreviewBlogPosts($fields, $evidenza, $numPost, $offset){
                 <div class="show-video video hidden-xs hidden-sm col-md-3">                   
                     <?php if(count($videos) > 0) {?>          
                         <ul class="videos-container col-xs-12">
-                            <?php foreach($videos as $video) { ?>
-                            <li class="video-thumb blog-layout">
-                                <div class="col-xs-12 bg-video hidden-xs hidden-sm layout-blog" style="background: url('<?php echo $video['image'] ?>')">
-                                    <div class="play"></div>
-                                </div>                               
-                                <div>
-                                    <h3 class="layout-blog"><?php echo $video['titolo'] ?></h3>
-                                    <!--
-                                    <p class="layout-blog">
-                                        <?php echo $video['descrizione'] ?>
-                                    </p>
-                                    -->
-                                </div>     
-                            </li> 
-                            <li class="col-xs-12 no-padding iframe-container hidden-xs hidden-sm">
-                                <div class="row2">
-                                    <div class="close-container"></div>
-                                    <iframe class="col-xs-12" src="https://www.youtube.com/embed/<?php echo $video['url'] ?>?rel=0" frameborder="0" allowfullscreen></iframe>
-                                    <!-- share buttons -->
-                                    <ul class="share-video-overlay" id="share-video-overlay">
-                                        <li class="share-on">
-                                            <span>Share on: </span>
-                                        </li>
-                                        <li class="facebook">
-                                            <a  title ="Share on Facebook"
-                                                href="javascript:;"
-                                                onClick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fyoutube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Facebook Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
-                                                
-                                            </a>
-                                        </li>
-                                        <li class="twitter">
-                                            <a title ="Share on Twitter"
-                                                href="javascript:;"
-                                               onClick="window.open('http://www.twitter.com/share?&text=Check+this+video&amp;url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Twitter Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
-                                                
-                                            </a>
-                                        </li>
-                                        <li class="pinterest">
-                                            <a title ="Share on Pinterest"
-                                                href="javascript:;"
-                                               onClick="window.open('http://www.pinterest.com/pin/create/button/?url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Pinterest Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
-                                                
-                                            </a>
-                                        </li>
-                                        <li class="gplus">
-                                            <a title ="Share on Google+"
-                                                href="javascript:;"
-                                               onClick="window.open('https://plus.google.com/share?url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Google plus Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
-                                                
-                                            </a>
-                                        </li>
-                                        <li class="linkedin">
-                                            <a title ="Share on Linkedin"
-                                                href="javascript:;"
-                                               onClick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Linkedin Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
-                                                                                               
-                                            </a>
-                                        </li>
-                                        <li class="tumblr">
-                                            <a title ="Share Tumblr"
-                                                href="javascript:;"
-                                               onClick="window.open('https://www.tumblr.com/share/link?url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Tumblr Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
-                                                                                          
-                                            </a>
-                                        </li>
-                                        <li class="digg">
-                                            <a title ="Share on Digg"
-                                                href="javascript:;"
-                                               onClick="window.open('http://digg.com/submit?phase=2&url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Digg Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
-                                                                                          
-                                            </a>
-                                        </li>
-                                        <li class="stumbleupon">
-                                            <a title ="Share on StumbleUpon"
-                                                href="javascript:;"
-                                               onClick="window.open('http://www.stumbleupon.com/submit?url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Stumbleupon Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
-                                                                                          
-                                            </a>
-                                        </li>
-                                        <li class="myspace">
-                                            <a title ="Share on MySpace"
-                                                href="javascript:;"
-                                               onClick="window.open('https://myspace.com/post?l=3&u=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'MySpace Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
-                                                                                        
-                                            </a>
-                                        </li>                                                                               
-                                    </ul>
-                                    <!-- end share buttons -->
-                                    <div class="clear"></div>
-                                </div>
-                            </li>
-                            <?php } ?> 
+                            <?php 
+                                $count = 0;
+                                foreach($videos as $video) {
+                                    if($count < 3){
+                                        printVideo($video);
+                                    }
+                                    else{
+                                        break;
+                                    } 
+                                    $count++;
+                                } 
+                            ?> 
                             <li class="clear"></li>
                         </ul>      
 
@@ -1076,11 +996,22 @@ function printPreviewBlogPosts($fields, $evidenza, $numPost, $offset){
                     <?php printPreviewBlogPost($item); ?>
                 </div>
                 
-                <div class="hidden-xs hidden-sm col-md-3 container-bg-logo">
-                    <div class="col-xs-12">
-                        <img class="bg-logo-left" src="<?php echo $path_img ?>bg-logo-left.png" style="width:100%;" />
-                    </div>
-                    <div class="clear"></div>
+                <div class="show-video video hidden-xs hidden-sm col-md-3">                   
+                    <?php if(count($videos) > 0) {?>          
+                        <ul class="videos-container col-xs-12">
+                            <?php 
+                                $count = 0;
+                                foreach($videos as $video) {
+                                    if($count >= 3){
+                                        printVideo($video);
+                                    }                                   
+                                    $count++;
+                                } 
+                            ?> 
+                            <li class="clear"></li>
+                        </ul>      
+
+                    <?php } ?>      
                 </div>
                 
             </div>
@@ -1124,24 +1055,7 @@ function printPreviewBlogPosts($fields, $evidenza, $numPost, $offset){
                         <a id="more-post">Show more</a> 
                     </div>        
                 </div>
-                <div class="show-video video visible-xs visible-sm col-xs-12">                    
-                    <?php if(count($videos) > 0) {?>          
-                        <ul class="videos-container col-xs-12">
-                            <?php foreach($videos as $video) { ?>
-                            <li class="video-thumb">                                
-                                <iframe class="visible-xs visible-sm bg-video col-xs-12" src="https://www.youtube.com/embed/<?php echo $video['url'] ?>?rel=0" frameborder="0" allowfullscreen></iframe>
-                                <div class="col-xs-12" style="margin-top:15px">
-                                    <h3 class="layout-blog"><?php echo $video['titolo'] ?></h3>                                    
-                                    <p class="layout-blog">
-                                        <?php echo $video['descrizione'] ?>
-                                    </p>                                    
-                                </div>     
-                            </li>
-                            <?php } ?>                             
-                        </ul>      
-
-                    <?php } ?>      
-                </div>
+                
 <?php
             }
         }
@@ -1149,6 +1063,103 @@ function printPreviewBlogPosts($fields, $evidenza, $numPost, $offset){
     }
  
             
+}
+
+
+function printVideo($video){
+?>
+    <li class="video-thumb blog-layout">
+        <div class="col-xs-12 bg-video hidden-xs hidden-sm layout-blog" style="background: url('<?php echo $video['image'] ?>')">
+            <div class="play"></div>
+        </div>                               
+        <div>
+            <h3 class="layout-blog"><?php echo $video['titolo'] ?></h3>
+            <!--
+            <p class="layout-blog">
+                <?php echo $video['descrizione'] ?>
+            </p>
+            -->
+        </div>     
+    </li> 
+    <li class="col-xs-12 no-padding iframe-container hidden-xs hidden-sm">
+        <div class="row2">
+            <div class="close-container"></div>
+            <iframe class="col-xs-12" src="https://www.youtube.com/embed/<?php echo $video['url'] ?>?rel=0" frameborder="0" allowfullscreen></iframe>
+            <!-- share buttons -->
+            <ul class="share-video-overlay" id="share-video-overlay">
+                <li class="share-on">
+                    <span>Share on: </span>
+                </li>
+                <li class="facebook">
+                    <a  title ="Share on Facebook"
+                        href="javascript:;"
+                        onClick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fyoutube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Facebook Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
+
+                    </a>
+                </li>
+                <li class="twitter">
+                    <a title ="Share on Twitter"
+                        href="javascript:;"
+                       onClick="window.open('http://www.twitter.com/share?&text=Check+this+video&amp;url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Twitter Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
+
+                    </a>
+                </li>
+                <li class="pinterest">
+                    <a title ="Share on Pinterest"
+                        href="javascript:;"
+                       onClick="window.open('http://www.pinterest.com/pin/create/button/?url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Pinterest Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
+
+                    </a>
+                </li>
+                <li class="gplus">
+                    <a title ="Share on Google+"
+                        href="javascript:;"
+                       onClick="window.open('https://plus.google.com/share?url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Google plus Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
+
+                    </a>
+                </li>
+                <li class="linkedin">
+                    <a title ="Share on Linkedin"
+                        href="javascript:;"
+                       onClick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Linkedin Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
+
+                    </a>
+                </li>
+                <li class="tumblr">
+                    <a title ="Share Tumblr"
+                        href="javascript:;"
+                       onClick="window.open('https://www.tumblr.com/share/link?url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Tumblr Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
+
+                    </a>
+                </li>
+                <li class="digg">
+                    <a title ="Share on Digg"
+                        href="javascript:;"
+                       onClick="window.open('http://digg.com/submit?phase=2&url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Digg Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
+
+                    </a>
+                </li>
+                <li class="stumbleupon">
+                    <a title ="Share on StumbleUpon"
+                        href="javascript:;"
+                       onClick="window.open('http://www.stumbleupon.com/submit?url=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'Stumbleupon Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
+
+                    </a>
+                </li>
+                <li class="myspace">
+                    <a title ="Share on MySpace"
+                        href="javascript:;"
+                       onClick="window.open('https://myspace.com/post?l=3&u=http%3A//www.youtube.com/watch%3Fv%3D<?php echo $video['url'] ?>', 'MySpace Share', 'width=600, height=300, resizable, status, scrollbars=1, location');">
+
+                    </a>
+                </li>                                                                               
+            </ul>
+            <!-- end share buttons -->
+            <div class="clear"></div>
+        </div>
+    </li>
+<?php        
+    
 }
 
 
