@@ -801,7 +801,15 @@ function getImageBackgroundItemMenu($title){
     }
     
     if($idPost != null){
-        return wp_get_attachment_url( get_post_thumbnail_id($idPost));    
+        
+        $imageHTML = get_the_post_thumbnail($idPost, 'large'); 
+        $temp = new DOMDocument();
+        $temp->loadHTML($imageHTML);
+        $xpath = new DOMXPath($temp);
+        $image = $xpath->evaluate("string(//img/@src)"); # "/images/image.jpg"
+        return $image;
+        
+        //return wp_get_attachment_url( get_post_thumbnail_id($idPost));    
     }
     
     
@@ -870,6 +878,13 @@ function getTextBetweenTags($tag, $html, $strict=0){
 
 function printPreviewBlogPost($item){
    
+    
+    $imageHTML = get_the_post_thumbnail($item->ID, 'large'); 
+    $temp = new DOMDocument();
+    $temp->loadHTML($imageHTML);
+    $xpath = new DOMXPath($temp);
+    $image = $xpath->evaluate("string(//img/@src)"); # "/images/image.jpg"
+    
    
 ?>    
 
@@ -883,7 +898,7 @@ function printPreviewBlogPost($item){
                 <div class="link">
                     <a href="<?php echo $item->guid ?>">See more ></a>
                 </div>
-                <div class="image-post" style="background:url('<?php echo wp_get_attachment_url( get_post_thumbnail_id($item->ID))  ?>') center center"></div>                
+                <div class="image-post" style="background:url('<?php echo $image ?>') center center"></div>                
             </a>
            
         </div>
@@ -953,7 +968,15 @@ function printPreviewBlogPosts($fields, $evidenza, $numPost, $offset){
         $video = array();
         $video['titolo'] = $field->post_title;
         $video['descrizione'] = $field->post_content;
-        $video['image'] = wp_get_attachment_url( get_post_thumbnail_id($field->ID));  
+        //$video['image'] = wp_get_attachment_url( get_post_thumbnail_id($field->ID));  
+        
+        //ridimensiono il video
+        $videoHTML = get_the_post_thumbnail($field->ID, array(400,235)); 
+        $temp = new DOMDocument();
+        $temp->loadHTML($videoHTML);
+        $xpath = new DOMXPath($temp);
+        $video['image'] = $xpath->evaluate("string(//img/@src)"); # "/images/image.jpg"
+          
         $embed_video = explode('watch?v=', get_post_meta($field->ID, 'video', true));
         $idVideo = $embed_video[count($embed_video)-1];
 
@@ -1226,6 +1249,7 @@ function printFooter(){
 <!-- end main content -->
 
 <!-- Booking form -->
+<!-- da decommentare quando ritorna il booking
 <div id="booking-form" class="black-container">
     <div class="col-xs-12 col-md-6">
         <h2>Contact for bookings</h2><span class="close-form">X</span>
@@ -1234,6 +1258,7 @@ function printFooter(){
         </div>
     </div>
 </div>
+-->
 <!-- end Booking form -->
 
 <!-- Newsletter -->
@@ -1255,14 +1280,25 @@ function printFooter(){
         <div class="copyright col-xs-12 col-md-3">
             <p style="font-size:0.9em">
                 P. IVA 04275020271<br>                
-                B&A - Bed and Art è stato registrato il 7/07/2014 presso il <a target="_blank" href="http://www.uibm.gov.it/index.php/marchi">ministero dello Sviluppo Economico</a>.<br>
+                B&A - Bed and Art è stato registrato il 7/07/2014 presso il <a style="color:#fff" target="_blank" href="http://www.uibm.gov.it/index.php/marchi">ministero dello Sviluppo Economico</a>.<br>
                 <a href="mailto:info@bedandart.it">info@bedandart.it</a><br>
                 Venezia, San Marco, 30124. <br>
                 Copyright &copy; 2015 All right reserved
             </p>
         </div>
-        <div class="field col-xs-12 col-md-3">
-            <h3 class="booking-link">BOOKING NOW</h3>
+        <div class="field col-xs-12 col-md-3 footer-loghi">
+            <!-- <h3 class="booking-link">BOOKING NOW</h3> -->
+            <div class="container-loghi">
+                <a href="http://tv.exibart.com/news/2008_lay_notizia_02.php?id_cat=78&id_news=6929&filter=&page_elenco=1" target="_blank" title="Exibart">
+                    <img src="<?php echo $path_img ?>bedandart-exibart-logo.png" alt="Exibart">
+                </a>
+                <a href="https://www.youtube.com/watch?v=-e8VpfYRiR0" target="_blank" title="Oliviero Toscani Studio">
+                    <img src="<?php echo $path_img ?>bedandart-oliviero-toscani-studio-logo.png" alt="Oliviero Toscani Studio">
+                </a>
+                <a href="http://insideart.eu/2016/04/18/michele-bubacco-finalista-vaf/" target="_blank" title="InsideArt">
+                    <img src="<?php echo $path_img ?>bedandart-insideart-logo.png" alt="InsideArt">
+                </a>
+            </div>
         </div>
         <div class="field col-xs-12 col-md-3">
             <h3 class="newsletter-link">NEWSLETTER</h3>

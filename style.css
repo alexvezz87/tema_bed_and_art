@@ -357,6 +357,23 @@ footer .arrow-up {
     margin-top:-9px;
 }
 
+.container-loghi a{
+    display: block;
+    margin-bottom:10px;
+    text-align: center;
+}
+
+.container-loghi a img{
+    width:100%;
+    max-width: 200px;
+}
+.footer-loghi{ 
+}
+
+.footer-loghi .container-loghi {
+    
+}
+
 /* end FOOTER */
 
 
