@@ -154,7 +154,7 @@ get_header(); ?>
             <div class="row">
                 <ul class="videos-container col-xs-12">
                     <?php foreach($videos as $video) { ?>
-                    <li class="col-xs-12 col-md-6 video-thumb">
+                    <li class="col-xs-12 col-md-4 video-thumb">
                         <div class="col-xs-12 bg-video hidden-xs hidden-sm" style="background: url('<?php echo $video['image'] ?>')">
                             <div class="play"></div>
                         </div>

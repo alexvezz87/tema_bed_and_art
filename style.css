@@ -1279,7 +1279,8 @@ li.collab a{
     }
     
     li.persona{
-        width:20%;
+        /*width:20%; */
+        width:16.66666666666%;
     }
     
     #inside.blog-list .not-first-post .blog-post .excerpt p {        
